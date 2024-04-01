@@ -11,7 +11,10 @@ module.exports = {
       },
       ownerId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'Users'
+        }
       },
       address: {
         type: Sequelize.STRING,
@@ -49,21 +52,15 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
-      avgRating: {
-        type: Sequelize.DECIMAL,
-        allowNull: false
-      },
-      previewImage: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },

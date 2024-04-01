@@ -22,7 +22,15 @@ router.get("/current", requireAuth, async (req, res, next) => {
         const spots = await Spot.findAll({
         where: {
             ownerId: user.dataValues.id
-        }
+        },
+        include: [{
+            model: Review,
+            attributes: ['stars']
+        },
+        {
+            model: SpotImage,
+            attributes: ['preview']
+        }]
     });
     res.json(spots)
 });

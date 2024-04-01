@@ -25,10 +25,6 @@ module.exports = {
       "name": "App Academy",
       "description": "Place where web developers are created",
       "price": 123,
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36",
-      "avgRating": 4.5,
-      "previewImage": "image url"
     },
     {
       "id": 2,
@@ -42,10 +38,6 @@ module.exports = {
       "name": "Park Place",
       "description": "Monopoly",
       "price": 90,
-      "createdAt": "2022-11-19 20:39:36",
-      "updatedAt": "2022-11-19 20:39:36",
-      "avgRating": 4.8,
-      "previewImage": "image url"
     },
     {
       "id": 3,
@@ -59,10 +51,6 @@ module.exports = {
       "name": "Boardwalk",
       "description": "Monopoly",
       "price": 125,
-      "createdAt": "2023-12-19 23:39:36",
-      "updatedAt": "2023-12-19 23:39:36",
-      "avgRating": 5.0,
-      "previewImage": "image url"
     },
    ], {});
   },
