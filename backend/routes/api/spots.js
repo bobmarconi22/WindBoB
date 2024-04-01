@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 
 const { setTokenCookie, restoreUser, requireAuth } = require("../../utils/auth");
-const { Spot, Session } = require("../../db/models");
+const { Booking, Review, ReviewImage, Spot, SpotImage, User } = require("../../db/models");
 
 const router = express.Router();
 
