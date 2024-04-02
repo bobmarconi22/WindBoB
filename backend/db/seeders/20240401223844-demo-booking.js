@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const { Booking } = require("../models");
 let options = {};
@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -16,23 +16,28 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
-   await queryInterface.bulkInsert('Bookings', [{
-    "spotId": 1,
-    "userId": 2,
-    "startDate": '2024-04-01',
-    "endDate": '2023-04-15',
-   },
-   {
-    "spotId": 2,
-    "userId": 3,
-    "startDate": '2024-05-01',
-    "endDate": '2023-06-15',
-   }
-  ],{});
+     */
+    await queryInterface.bulkInsert(
+      "Bookings",
+      [
+        {
+          spotId: 1,
+          userId: 2,
+          startDate: "2024-04-01",
+          endDate: "2023-04-15",
+        },
+        {
+          spotId: 2,
+          userId: 3,
+          startDate: "2024-05-01",
+          endDate: "2023-06-15",
+        },
+      ],
+      {}
+    );
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
@@ -41,7 +46,6 @@ module.exports = {
      */
     options.tableName = "Bookings";
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete(
-      options, {}, {});
-  }
+    await queryInterface.bulkDelete(options, {}, {});
+  },
 };

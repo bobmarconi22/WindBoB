@@ -64,7 +64,7 @@ router.get("/", async (_req, res, next) => {
       } else {
         spot.dataValues.previewImage = spotImages[0].dataValues.url;
       }
-    };
+    }
 
     res.json(spots);
   } catch (error) {
@@ -166,44 +166,46 @@ router.get("/current", requireAuth, async (req, res, next) => {
   }
 });
 
-router.get("/:spotId", async (req, res, next) => {
+router.get("/:spotId", handleValidationErrors, async (req, res, next) => {
   const spotId = req.params.spotId;
   const spot = await Spot.findAll({
     where: {
       id: spotId,
     },
-    include: [{
-      model: SpotImage,
-    },
-    {
-      model: User,
-      as: 'Owner'
-    }],
+    include: [
+      {
+        model: SpotImage,
+      },
+      {
+        model: User,
+        as: "Owner",
+      },
+    ],
   });
+  if (!spot.length) {
+    throw new Error("Spot couldn't be found");
+  }
   await findAvgStars(spot);
   res.json(spot);
 });
 
 router.post("/", requireAuth, async (req, res, next) => {
-  const { user } = req;
-  const newSpot = await Spot.create(req.body);
-
-  const{ id, address, city, state, country, lat, lng, name, description, price } = req.body
-
-  newSpot.id = id,
-  newSpot.ownerId = user.id,
-  newSpot.address = address,
-  newSpot.city = city,
-  newSpot.state = state,
-  newSpot.country = country,
-  newSpot.lat = lat,
-  newSpot.lng = lng,
-  newSpot.name = name,
-  newSpot.description = description,
-  newSpot.price = price,
-
-
-  res.json(spots);
+  const userId = req.user.id;
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
+  let spot = await Spot.create({
+    address: address,
+    ownerId: userId,
+    city: city,
+    state: state,
+    country: country,
+    lat: lat,
+    lng: lng,
+    name: name,
+    description: description,
+    price: price,
+  });
+  res.json(spot);
 });
 
 module.exports = router;

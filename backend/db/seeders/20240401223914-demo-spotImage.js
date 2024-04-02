@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const { SpotImage } = require("../models");
 let options = {};
@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -16,25 +16,31 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
-    await queryInterface.bulkInsert('SpotImages', [{
-      'spotId': 1,
-      'url': 'Image Url',
-      'preview': true,
-    },
-    {
-      'spotId': 1,
-      'url': 'Image Url 2',
-      'preview': false,
-    },
-    {
-      'spotId': 1,
-      'url': 'Image Url 3',
-      'preview': false,
-    }], {});
+     */
+    await queryInterface.bulkInsert(
+      "SpotImages",
+      [
+        {
+          spotId: 1,
+          url: "Image Url",
+          preview: true,
+        },
+        {
+          spotId: 1,
+          url: "Image Url 2",
+          preview: false,
+        },
+        {
+          spotId: 1,
+          url: "Image Url 3",
+          preview: false,
+        },
+      ],
+      {}
+    );
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
@@ -43,7 +49,6 @@ module.exports = {
      */
     options.tableName = "SpotImages";
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete(
-      options, {}, {});
-  }
+    await queryInterface.bulkDelete(options, {}, {});
+  },
 };

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const { ReviewImage } = require("../models");
 let options = {};
@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -16,14 +16,20 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
-    await queryInterface.bulkInsert('ReviewImages', [{
-      'reviewId': 1,
-      'url': 'Image Url'
-    }], {});
+     */
+    await queryInterface.bulkInsert(
+      "ReviewImages",
+      [
+        {
+          reviewId: 1,
+          url: "Image Url",
+        },
+      ],
+      {}
+    );
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
@@ -32,7 +38,6 @@ module.exports = {
      */
     options.tableName = "ReviewImages";
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete(
-      options, {}, {});
-  }
+    await queryInterface.bulkDelete(options, {}, {});
+  },
 };
