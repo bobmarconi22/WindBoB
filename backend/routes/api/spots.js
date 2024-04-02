@@ -1,6 +1,7 @@
 const express = require("express");
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
+const { Sequelize } = require('sequelize');
 
 const { setTokenCookie, restoreUser, requireAuth } = require("../../utils/auth");
 const { Booking, Review, ReviewImage, Spot, SpotImage, User } = require("../../db/models");
@@ -12,8 +13,21 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 
 router.get("/", async (_req, res, next) => {
-    const spots = await Spot.findAll();
-
+        const spots = await Spot.findAll({
+            include : [{
+                model: Review,
+                attributes: [[Sequelize.fn('AVG', Sequelize.col('stars')), 'avgRating']]
+              },
+              {
+                model: SpotImage,
+                attributes: [['url'], 'previewImage'],
+                where: {
+                    preview: true
+                }
+            }
+            ]
+        });
+    console.log(spots)
     res.json(spots)
 });
 
