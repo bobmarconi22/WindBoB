@@ -1,6 +1,10 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
+const { Spot } = require("../models");
+let options = {};
+if (process.env.NODE_ENV === "production") {
+  options.schema = process.env.SCHEMA; // define your schema in options object
+}
 module.exports = {
   async up (queryInterface, Sequelize) {
     /**
@@ -34,7 +38,7 @@ module.exports = {
       "state": "Pennsylvania",
       "country": "United States of America",
       "lat": 3.1415269,
-      "lng": 1234.56789,
+      "lng": 123.56789,
       "name": "Park Place",
       "description": "Monopoly",
       "price": 90,
@@ -46,8 +50,8 @@ module.exports = {
       "city": "New York",
       "state": "New York",
       "country": "United States of America",
-      "lat": 312.141534269,
-      "lng": 334.5634789,
+      "lat": 12.141534269,
+      "lng": 34.5634789,
       "name": "Boardwalk",
       "description": "Monopoly",
       "price": 125,
@@ -62,6 +66,9 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    queryInterface.bulkDelete('Spots', null, {})
+    options.tableName = "Spots";
+    const Op = Sequelize.Op;
+    await queryInterface.bulkDelete(
+      options, {}, {});
   }
 };

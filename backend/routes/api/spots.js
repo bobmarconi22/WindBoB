@@ -22,20 +22,19 @@ const router = express.Router();
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
-
 async function findAvgStars(...spots) {
-  spots = spots[0]
+  spots = spots[0];
   for (const spot of spots) {
     const reviews = await Review.findAll({
       where: { spotId: spot.dataValues.id },
     });
     const totalStars = reviews.reduce((sum, review) => sum + review.stars, 0);
-        spot.dataValues.avgRating = totalStars / reviews.length;
+    spot.dataValues.avgRating = totalStars / reviews.length;
   }
-};
+}
 
 async function findPrevImg(...spots) {
-  spots = spots[0]
+  spots = spots[0];
   for (const spot of spots) {
     const prevImage = await SpotImage.findAll({
       where: {
@@ -43,7 +42,7 @@ async function findPrevImg(...spots) {
         preview: true,
       },
     });
-      spot.dataValues.previewImage = prevImage[0].dataValues.url;
+    spot.dataValues.previewImage = prevImage[0].dataValues.url;
   }
 }
 
@@ -65,7 +64,7 @@ router.get("/", async (_req, res, next) => {
       } else {
         spot.dataValues.previewImage = spotImages[0].dataValues.url;
       }
-    }
+    };
 
     res.json(spots);
   } catch (error) {
@@ -169,32 +168,41 @@ router.get("/current", requireAuth, async (req, res, next) => {
 
 router.get("/:spotId", async (req, res, next) => {
   const spotId = req.params.spotId;
-  const spots = await Spot.findAll({
+  const spot = await Spot.findAll({
     where: {
       id: spotId,
     },
-    include: {
+    include: [{
       model: SpotImage,
-      model: User,
     },
+    {
+      model: User,
+      as: 'Owner'
+    }],
   });
-  for (const spot of spots) {
-    const reviews = await Review.findAll({
-      where: { spotId: spot.id },
-    });
-    const totalStars = reviews.reduce((acc, review) => acc + review.stars, 0);
-    if (reviews.length === 0) {
-      spot.dataValues.avgRating = 0;
-    } else {
-      spot.dataValues.avgRating = totalStars / reviews.length;
-    }
-  }
-  res.json(spots);
+  await findAvgStars(spot);
+  res.json(spot);
 });
 
 router.post("/", requireAuth, async (req, res, next) => {
   const { user } = req;
-  const spots = await Spot.create(req.body);
+  const newSpot = await Spot.create(req.body);
+
+  const{ id, address, city, state, country, lat, lng, name, description, price } = req.body
+
+  newSpot.id = id,
+  newSpot.ownerId = user.id,
+  newSpot.address = address,
+  newSpot.city = city,
+  newSpot.state = state,
+  newSpot.country = country,
+  newSpot.lat = lat,
+  newSpot.lng = lng,
+  newSpot.name = name,
+  newSpot.description = description,
+  newSpot.price = price,
+
+
   res.json(spots);
 });
 
