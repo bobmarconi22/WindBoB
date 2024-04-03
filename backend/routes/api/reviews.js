@@ -128,7 +128,7 @@ router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
     throw err;
   }
 
-  console.log(review.ReviewImages.length)
+  console.log(review.ReviewImages.length);
   if (review.ReviewImages.length === 10) {
     const err = new Error(
       "Maximum number of images for this resource was reached"
@@ -148,6 +148,53 @@ router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
   };
 
   res.json(payload);
+});
+
+router.put("/:reviewId", requireAuth, async (req, res, next) => {
+  const { review, stars } = req.body;
+  if (isNaN(parseInt(req.params.reviewId))) {
+    let err = new Error("Review couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+  const editReview = await Review.findByPk(parseInt(req.params.reviewId));
+
+  if (!editReview) {
+    let err = new Error("Review couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  if (editReview.userId !== parseInt(req.user.id)) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
+
+  let throwStars = false;
+  let throwReview = false;
+
+  if (!stars || stars > 5 || stars < 0 || typeof stars !== "number") {
+    throwStars = true;
+  }
+  if (!review || typeof review !== "string") {
+    throwReview = true;
+  }
+  if (throwReview || throwStars) {
+    const err = new Error("Bad Request");
+    err.errors = {};
+    if (throwReview) err.errors.review = "Review text is required";
+    if (throwStars) err.errors.stars = "Stars must be an integer from 1 to 5";
+    err.status = 400;
+    throw err;
+  }
+
+  editReview.update({
+    review: review,
+    stars: stars,
+  });
+
+  res.json(editReview);
 });
 
 module.exports = router;

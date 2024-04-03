@@ -345,40 +345,28 @@ router.post("/:spotId/reviews", requireAuth, async (req, res, next) => {
     throw err;
   }
 
-  if (
-    !review ||
-    typeof review !== "string" ||
-    !stars ||
-    stars > 5 ||
-    stars < 0 ||
-    typeof stars !== "number"
-  ) {
-    const err = new Error("Bad Request");
-    err.errors = {};
-    if (!review) err.errors.review = "Review text is required";
-    if (!stars) err.errors.stars = "Stars must be an integer from 1 to 5";
-    err.status = 400;
-    throw err;
-  }
-  console.log(typeof stars);
-  if (
-    isNaN(stars) ||
-    !stars ||
-    stars > 5 ||
-    stars < 0 ||
-    typeof stars !== "number"
-  ) {
-    const err = new Error("Bad Request");
-    err.errors = {};
+  let throwStars = false;
+  let throwReview = false;
 
+  if (!stars || stars > 5 || stars < 0 || typeof stars !== "number") {
+    throwStars = true;
+  }
+  if (!review || typeof review !== "string") {
+    throwReview = true;
+  }
+  if (throwReview || throwStars) {
+    const err = new Error("Bad Request");
+    err.errors = {};
+    if (throwReview) err.errors.review = "Review text is required";
+    if (throwStars) err.errors.stars = "Stars must be an integer from 1 to 5";
     err.status = 400;
     throw err;
   }
 
   const allReviews = await Review.findAll({
     where: {
-      userId: parseInt(req.user.id)
-    }
+      userId: parseInt(req.user.id),
+    },
   });
 
   for (const review of allReviews) {
