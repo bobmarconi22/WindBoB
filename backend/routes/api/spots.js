@@ -312,6 +312,26 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
   res.json({ message: "Successfully deleted" });
 });
 
-router.get("/:spotId/reviews", requireAuth, async (req, res, next) => {});
+router.get("/:spotId/reviews", requireAuth, async (req, res, next) => {
+  const reviews = await Review.findAll({
+    where: {
+      spotId: parseInt(req.params.spotId),
+    },
+    include: {
+      model: ReviewImage,
+      attributes: ["id", "url"],
+    },
+  });
+
+  const spot = await Review.findByPk(parseInt(req.params.spotId));
+
+  if (!spot) {
+    let err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  res.json({ Reviews: reviews });
+});
 
 module.exports = router;
