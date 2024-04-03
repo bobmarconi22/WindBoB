@@ -23,20 +23,22 @@ const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
 async function findAvgStars(...spots) {
-  spots = spots[0];
+  spots = spots.flat();
   for (const spot of spots) {
+    spot.dataValues.avgRating = 0;
     const reviews = await Review.findAll({
-      where: { spotId: spot.dataValues.id },
+      where: { spotId: spot.id },
     });
     const totalStars = reviews.reduce((sum, review) => sum + review.stars, 0);
-    spot.dataValues.avgRating = totalStars / reviews.length;
+    if (totalStars / reviews.length) {
+      spot.dataValues.avgRating = totalStars / reviews.length;
+    }
   }
 }
 
 router.get("/", async (_req, res, next) => {
   try {
     const spots = await Spot.findAll();
-
     await findAvgStars(spots);
 
     for (const spot of spots) {
@@ -53,7 +55,7 @@ router.get("/", async (_req, res, next) => {
       }
     }
 
-    res.json(spots);
+    res.json({ Spots: spots });
   } catch (error) {
     next(error);
   }
@@ -84,31 +86,28 @@ router.get("/current", requireAuth, async (req, res, next) => {
       }
     }
 
-    res.json(spots);
+    res.json({ Spots: spots });
   } catch (error) {
     next(error);
   }
 });
 
 router.get("/:spotId", handleValidationErrors, async (req, res, next) => {
-  const spotId = req.params.spotId;
-  const spot = await Spot.findAll({
-    where: {
-      id: spotId,
-    },
+  const spotId = parseInt(req.params.spotId);
+  const spot = await Spot.findByPk(spotId, {
     include: [
       {
         model: SpotImage,
-        attributes: ['id', 'url', 'preview']
+        attributes: ["id", "url", "preview"],
       },
       {
         model: User,
         as: "Owner",
-        attributes: ['id', 'firstName', 'lastName']
+        attributes: ["id", "firstName", "lastName"],
       },
     ],
   });
-  if (!spot.length) {
+  if (!spot) {
     let err = new Error();
     (err.message = "Spot couldn't be found"), (err.status = 404);
     throw err;
@@ -116,12 +115,11 @@ router.get("/:spotId", handleValidationErrors, async (req, res, next) => {
 
   const reviews = await Review.findAll({
     where: {
-      spotId: spot[0].dataValues.id,
+      spotId: spot.id,
     },
   });
 
-  spot[0].dataValues.numReviews = reviews.length
-
+  spot.dataValues.numReviews = reviews.length;
   await findAvgStars(spot);
   res.json(spot);
 });
@@ -296,7 +294,11 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
     err.status = 404;
     throw err;
   }
-
+  if (spotId !== req.user.id) {
+    let err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
   const spot = await Spot.findByPk(spotId);
 
   if (!spot) {
@@ -309,5 +311,7 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
 
   res.json({ message: "Successfully deleted" });
 });
+
+router.get("/:spotId/reviews", requireAuth, async (req, res, next) => {});
 
 module.exports = router;
