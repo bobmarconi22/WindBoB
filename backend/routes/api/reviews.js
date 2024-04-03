@@ -35,7 +35,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
 
   if (reviews.length <= 0) {
     return res.json("No Reviews Yet!");
-  };
+  }
 
   const spot = await Spot.findOne({
     where: {
@@ -109,6 +109,43 @@ router.get("/current", requireAuth, async (req, res, next) => {
   });
 
   const payload = { Reviews: formattedReviews };
+
+  res.json(payload);
+});
+
+router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
+  const { url } = req.body;
+
+  const review = await Review.findByPk(parseInt(req.params.reviewId), {
+    include: {
+      model: ReviewImage,
+    },
+  });
+
+  if (!review) {
+    const err = new Error("Review couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  console.log(review.ReviewImages.length)
+  if (review.ReviewImages.length === 10) {
+    const err = new Error(
+      "Maximum number of images for this resource was reached"
+    );
+    err.status = 403;
+    throw err;
+  }
+
+  const newImg = await ReviewImage.create({
+    reviewId: parseInt(req.params.reviewId),
+    url: url,
+  });
+
+  const payload = {
+    id: newImg.id,
+    url: newImg.url,
+  };
 
   res.json(payload);
 });

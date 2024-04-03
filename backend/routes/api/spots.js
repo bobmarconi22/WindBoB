@@ -312,7 +312,7 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
   res.json({ message: "Successfully deleted" });
 });
 
-router.get("/:spotId/reviews", requireAuth, async (req, res, next) => {
+router.get("/:spotId/reviews", async (req, res, next) => {
   const reviews = await Review.findAll({
     where: {
       spotId: parseInt(req.params.spotId),
