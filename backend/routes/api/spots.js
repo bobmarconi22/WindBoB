@@ -99,10 +99,12 @@ router.get("/:spotId", handleValidationErrors, async (req, res, next) => {
     include: [
       {
         model: SpotImage,
+        attributes: ['id', 'url', 'preview']
       },
       {
         model: User,
         as: "Owner",
+        attributes: ['id', 'firstName', 'lastName']
       },
     ],
   });
@@ -111,6 +113,15 @@ router.get("/:spotId", handleValidationErrors, async (req, res, next) => {
     (err.message = "Spot couldn't be found"), (err.status = 404);
     throw err;
   }
+
+  const reviews = await Review.findAll({
+    where: {
+      spotId: spot[0].dataValues.id,
+    },
+  });
+
+  spot[0].dataValues.numReviews = reviews.length
+
   await findAvgStars(spot);
   res.json(spot);
 });
@@ -220,8 +231,6 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
     throw err;
   }
 
-  const spot = await Spot.findByPk(spotId);
-
   if (!spot) {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
@@ -277,7 +286,6 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
   });
 
   res.json(spot);
-  
 });
 
 router.delete("/:spotId", requireAuth, async (req, res, next) => {
