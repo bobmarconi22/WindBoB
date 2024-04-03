@@ -155,7 +155,7 @@ router.post("/", requireAuth, async (req, res, next) => {
     err.status = 400;
   }
   if (typeof price !== "number" || price < 0) {
-    err.errors.price = "Price must be a positive number";
+    err.errors.price = "Price per day must be a positive number";
     err.status = 400;
   }
   if (err.status === 400) {
@@ -254,7 +254,7 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
     errors.description = "Description is required";
   }
   if (typeof price !== "number" || price < 0) {
-    errors.price = "Price must be a positive number";
+    errors.price = "Price per day must be a positive number";
   }
 
   if (Object.keys(errors).length > 0) {
@@ -273,11 +273,32 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
     lng,
     name,
     description,
-    price
+    price,
   });
 
   res.json(spot);
 });
 
+router.delete("/:spotId", requireAuth, async (req, res, next) => {
+  const spotId = parseInt(req.params.spotId);
+
+  if (isNaN(spotId) || spotId < 1) {
+    let err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    let err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  await spot.destroy();
+
+  res.json({ message: "Successfully deleted" });
+});
 
 module.exports = router;
