@@ -334,4 +334,69 @@ router.get("/:spotId/reviews", requireAuth, async (req, res, next) => {
   res.json({ Reviews: reviews });
 });
 
+router.post("/:spotId/reviews", requireAuth, async (req, res, next) => {
+  const { review, stars } = req.body;
+
+  const spot = await Review.findByPk(parseInt(req.params.spotId));
+
+  if (!spot) {
+    let err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  if (
+    !review ||
+    typeof review !== "string" ||
+    !stars ||
+    stars > 5 ||
+    stars < 0 ||
+    typeof stars !== "number"
+  ) {
+    const err = new Error("Bad Request");
+    err.errors = {};
+    if (!review) err.errors.review = "Review text is required";
+    if (!stars) err.errors.stars = "Stars must be an integer from 1 to 5";
+    err.status = 400;
+    throw err;
+  }
+  console.log(typeof stars);
+  if (
+    isNaN(stars) ||
+    !stars ||
+    stars > 5 ||
+    stars < 0 ||
+    typeof stars !== "number"
+  ) {
+    const err = new Error("Bad Request");
+    err.errors = {};
+
+    err.status = 400;
+    throw err;
+  }
+
+  const allReviews = await Review.findAll({
+    where: {
+      userId: parseInt(req.user.id)
+    }
+  });
+
+  for (const review of allReviews) {
+    if (review.spotId === parseInt(req.params.spotId)) {
+      const err = new Error("User already has a review for this spot");
+      err.status = 500;
+      throw err;
+    }
+  }
+
+  const newReview = await Review.create({
+    userId: parseInt(req.user.id),
+    spotId: parseInt(req.params.spotId),
+    review: review,
+    stars: stars,
+  });
+
+  res.json(newReview);
+});
+
 module.exports = router;
