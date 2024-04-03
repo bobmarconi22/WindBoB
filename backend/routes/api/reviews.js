@@ -32,8 +32,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
       attributes: ["id", "firstName", "lastName"],
     },
   });
-
-  if (reviews.length <= 0) {
+  if (reviews[0].length <= 0) {
     return res.json("No Reviews Yet!");
   }
 
@@ -57,7 +56,6 @@ router.get("/current", requireAuth, async (req, res, next) => {
     include: [
       {
         model: SpotImage,
-        as: "previewImage",
         where: {
           preview: true,
         },
@@ -72,7 +70,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
     },
     attributes: ["id", "url"],
   });
-
+  console.log(spot.SpotImages.length);
   const formattedReviews = reviews.map((review) => {
     return {
       id: review.id,
@@ -99,7 +97,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
         name: spot.name,
         price: spot.price,
         previewImage:
-          spot.previewImage.length > 0 ? spot.previewImage[0].url : null,
+          spot.SpotImages.length > 0 ? spot.SpotImages[0].url : null,
       },
       ReviewImages: reviewImages.map((image) => ({
         id: image.id,
@@ -153,14 +151,14 @@ router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
 router.put("/:reviewId", requireAuth, async (req, res, next) => {
   const { review, stars } = req.body;
   if (isNaN(parseInt(req.params.reviewId))) {
-    let err = new Error("Review couldn't be found");
+    const err = new Error("Review couldn't be found");
     err.status = 404;
     throw err;
   }
   const editReview = await Review.findByPk(parseInt(req.params.reviewId));
 
   if (!editReview) {
-    let err = new Error("Review couldn't be found");
+    const err = new Error("Review couldn't be found");
     err.status = 404;
     throw err;
   }
@@ -195,6 +193,34 @@ router.put("/:reviewId", requireAuth, async (req, res, next) => {
   });
 
   res.json(editReview);
+});
+
+router.delete("/:reviewId", requireAuth, async (req, res, next) => {
+  const reviewId = parseInt(req.params.reviewId);
+
+  if (isNaN(reviewId) || reviewId < 1) {
+    let err = new Error("Review couldn't be found");
+    err.status = 404;
+    throw err;
+  };
+
+  const review = await Review.findByPk(reviewId);
+
+  if (!review) {
+    let err = new Error("Review couldn't be found");
+    err.status = 404;
+    throw err;
+  };
+
+  if (review.userId !== parseInt(req.user.id)) {
+    let err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  };
+
+  await review.destroy();
+
+  res.json({ message: "Successfully deleted" });
 });
 
 module.exports = router;
