@@ -277,6 +277,7 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
   });
 
   res.json(spot);
+  
 });
 
 router.delete("/:spotId", requireAuth, async (req, res, next) => {
