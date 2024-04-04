@@ -154,8 +154,7 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
   });
 
   for (const booking of spotBookings) {
-
-    console.log(booking.id, editBooking.id, booking, editBooking)
+    console.log(booking.id, editBooking.id, booking, editBooking);
     if (booking.id !== editBooking.id) {
       const err = new Error();
       err.errors = {};
@@ -187,12 +186,12 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
           "Sorry, this spot is already booked for the specified dates";
         err.errors.middleDates = `A Booking or bookings exist from within your desired time frame.`;
         err.status = 403;
-      };
+      }
       if (err.status === 403) {
         throw err;
       }
     }
-  };
+  }
 
   editBooking.update({
     startDate: startDate,
@@ -200,6 +199,42 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
   });
 
   res.json(editBooking);
+});
+
+router.delete("/:bookingId", requireAuth, async (req, res, next) => {
+  const bookingId = parseInt(req.params.bookingId);
+
+  if (isNaN(bookingId) || bookingId < 1) {
+    const err = new Error("Booking couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  const booking = await Booking.findByPk(bookingId);
+
+  if (!booking) {
+    const err = new Error("Booking couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  const spot = await Spot.findByPk(booking.spotId);
+
+  if (req.user.id !== booking.userId || req.user.id !== spot.ownerId) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
+
+  if (booking.startDate < new Date()) {
+    const err = new Error("Bookings that have been started can't be deleted");
+    err.status = 403;
+    throw err;
+  }
+
+  booking.destroy();
+
+  res.json({ message: "Successfully deleted" });
 });
 
 module.exports = router;
