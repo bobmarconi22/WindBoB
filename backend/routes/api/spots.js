@@ -487,7 +487,6 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
   };
 
   const currentDate = new Date();
-  console.log(new Date(startDate) < currentDate)
 
   if (
     !startDate ||

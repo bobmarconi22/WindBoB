@@ -17,20 +17,25 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert(
-      "Bookings",
+    await Booking.bulkCreate(
       [
         {
-          spotId: 1,
+          spotId: 3,
           userId: 2,
-          startDate: new Date("2021-11-19"),
-          endDate: new Date("2021-11-20"),
+          startDate: new Date("2024-11-06"),
+          endDate: new Date("2024-11-24"),
         },
         {
           spotId: 2,
           userId: 3,
-          startDate: new Date("2021-11-19"),
-          endDate: new Date("2021-11-20"),
+          startDate: new Date("2023-12-17"),
+          endDate: new Date("2023-12-24"),
+        },
+        {
+          spotId: 3,
+          userId: 2,
+          startDate: new Date("2024-12-17"),
+          endDate: new Date("2024-12-24"),
         },
       ],
       {}

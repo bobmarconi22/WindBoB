@@ -16,8 +16,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    queryInterface.bulkInsert(
-      "Spots",
+    await Spot.bulkCreate(
       [
         {
           id: 1,
