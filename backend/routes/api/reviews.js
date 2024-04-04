@@ -205,7 +205,7 @@ router.delete("/:reviewId", requireAuth, async (req, res, next) => {
     let err = new Error("Review couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
   const review = await Review.findByPk(reviewId);
 
@@ -213,13 +213,13 @@ router.delete("/:reviewId", requireAuth, async (req, res, next) => {
     let err = new Error("Review couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
   if (review.userId !== parseInt(req.user.id)) {
     let err = new Error("Forbidden");
     err.status = 403;
     throw err;
-  };
+  }
 
   await review.destroy();
 

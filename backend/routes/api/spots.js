@@ -470,7 +470,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
     const err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
   const spot = await Spot.findByPk(spotId);
 
@@ -478,13 +478,13 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
     const err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
   if (req.user.id === spot.ownerId) {
     const err = new Error("Forbidden");
     err.status = 403;
     throw err;
-  };
+  }
 
   const currentDate = new Date();
 
@@ -499,21 +499,21 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
     if (!startDate) {
       err.errors.startDate = "Start Date is Required";
       err.status = 400;
-    };
+    }
     if (!endDate) {
       err.errors.endDate = "End Date is Required";
       err.status = 400;
-    };
+    }
     if (new Date(startDate) < currentDate) {
       err.errors.startDate = "startDate cannot be in the past";
       err.status = 400;
-    };
+    }
     if (new Date(startDate) >= new Date(endDate)) {
       err.errors.endDate = "endDate cannot be on or before startDate";
       err.status = 400;
-    };
+    }
     throw err;
-  };
+  }
 
   const spotBookings = await Booking.findAll({
     where: {
@@ -524,27 +524,41 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
   for (const booking of spotBookings) {
     const err = new Error();
     err.errors = {};
-    if (new Date(startDate) <= booking.endDate && new Date(startDate) >= booking.startDate) {
-      err.message = ( "Sorry, this spot is already booked for the specified dates")
+    if (
+      new Date(startDate) <= booking.endDate &&
+      new Date(startDate) >= booking.startDate
+    ) {
+      err.message =
+        "Sorry, this spot is already booked for the specified dates";
       err.errors.startDate = "Start date conflicts with an existing booking";
       err.status = 403;
-    };
-    if (new Date(endDate) <= booking.endDate && new Date(endDate) >= booking.startDate) {
-      err.message = ( "Sorry, this spot is already booked for the specified dates")
+    }
+    if (
+      new Date(endDate) <= booking.endDate &&
+      new Date(endDate) >= booking.startDate
+    ) {
+      err.message =
+        "Sorry, this spot is already booked for the specified dates";
       err.errors.endDate = "End date conflicts with an existing booking";
       err.status = 403;
-    };
+    }
 
-    if (booking.startDate < new Date(endDate) && booking.startDate > new Date(startDate) && booking.endDate < new Date(endDate) && booking.endDate > new Date(startDate)){
-      err.message = ( "Sorry, this spot is already booked for the specified dates")
+    if (
+      booking.startDate < new Date(endDate) &&
+      booking.startDate > new Date(startDate) &&
+      booking.endDate < new Date(endDate) &&
+      booking.endDate > new Date(startDate)
+    ) {
+      err.message =
+        "Sorry, this spot is already booked for the specified dates";
       err.errors.middleDates = `A Booking or bookings exist from within your desired time frame.`;
       err.status = 403;
-    };
-    console.log(booking === spotBookings[spotBookings.length - 1])
+    }
+    console.log(booking === spotBookings[spotBookings.length - 1]);
     if (err.status === 403) {
-      throw err
-    };
-  };
+      throw err;
+    }
+  }
 
   const newBooking = await Booking.create({
     spotId: spot.id,
