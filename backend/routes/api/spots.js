@@ -46,14 +46,14 @@ router.get("/", async (_req, res, next) => {
         where: {
           id: spot.id,
           preview: true,
-        },
+        }
       });
       if (spotImages.length === 0) {
         spot.dataValues.previewImage = null;
       } else {
         spot.dataValues.previewImage = spotImages[0].dataValues.url;
-      }
-    }
+      };
+    };
 
     res.json({ Spots: spots });
   } catch (error) {
@@ -92,7 +92,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
   }
 });
 
-router.get("/:spotId", handleValidationErrors, async (req, res, next) => {
+router.get("/:spotId", async (req, res, next) => {
   const spotId = parseInt(req.params.spotId);
   const spot = await Spot.findByPk(spotId, {
     include: [
@@ -131,39 +131,39 @@ router.post("/", requireAuth, async (req, res, next) => {
 
   const err = new Error();
   err.errors = {};
-  if (typeof address !== "string" || address.length === 0) {
+  if (!address || typeof address !== "string" || address.length === 0) {
     err.errors.address = "Street address is required";
     err.status = 400;
   }
-  if (typeof city !== "string" || city.length === 0) {
+  if (!city || typeof city !== "string" || city.length === 0) {
     err.errors.city = "City is required";
     err.status = 400;
   }
-  if (typeof state !== "string" || state.length === 0) {
+  if (!state || typeof state !== "string" || state.length === 0) {
     err.errors.state = "State is required";
     err.status = 400;
   }
-  if (typeof country !== "string" || country.length === 0) {
+  if (!country || typeof country !== "string" || country.length === 0) {
     err.errors.country = "Country is required";
     err.status = 400;
   }
-  if (typeof lat !== "number" || lat > 90 || lat < -90) {
+  if (!lat || typeof lat !== "number" || lat > 90 || lat < -90) {
     err.errors.lat = "Latitude must be within -90 and 90";
     err.status = 400;
   }
-  if (typeof lat !== "number" || lng > 180 || lng < -180) {
+  if (!lng || typeof lng !== "number" || lng > 180 || lng < -180) {
     err.errors.lng = "Longitude must be within -180 and 180";
     err.status = 400;
   }
-  if (typeof name !== "string" || name.length > 50) {
+  if (!name || typeof name !== "string" || name.length > 50) {
     err.errors.name = "Name must be less than 50 characters";
     err.status = 400;
   }
-  if (typeof description !== "string" || description.length === 0) {
+  if (!description || typeof description !== "string" || description.length === 0) {
     err.errors.description = "Description is required";
     err.status = 400;
   }
-  if (typeof price !== "number" || price < 0) {
+  if (!price || typeof price !== "number" || price < 0) {
     err.errors.price = "Price per day must be a positive number";
     err.status = 400;
   }
@@ -184,29 +184,33 @@ router.post("/", requireAuth, async (req, res, next) => {
     description: description,
     price: price,
   });
-  res.json(spot);
+  res.status(201).json(spot);
 });
 
 router.post("/:spotId/images", requireAuth, async (req, res, next) => {
   const spotId = parseInt(req.params.spotId);
 
-  if (isNaN(spotId) || spot < 1) {
+  if (isNaN(spotId) || spotId < 1) {
     let err = new Error();
     (err.message = "Spot couldn't be found"), (err.status = 404);
     throw err;
-  }
+  };
 
-  const spot = await Spot.findAll({
-    where: {
-      id: spotId,
-    },
-  });
+  const spot = await Spot.findByPk(spotId);
 
-  if (!spot.length) {
+  if (!spot) {
     let err = new Error();
-    (err.message = "Spot couldn't be found"), (err.status = 404);
+    err.message = "Spot couldn't be found"
+    err.status = 404;
     throw err;
-  }
+  };
+
+  if(spot.ownerId !== req.user.id){
+    let err = new Error();
+    err.message = "Forbidden"
+    err.status = 403;
+    throw err;
+  };
 
   const { url, preview } = req.body;
   const newImg = await SpotImage.create({
@@ -227,49 +231,58 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  }
+  };
+
+ const spot = await Spot.findByPk(spotId)
 
   if (!spot) {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  }
+  };
+
+  if(spot.ownerId !== req.user.id){
+    let err = new Error();
+    err.message = "Forbidden"
+    err.status = 403;
+    throw err;
+  };
 
   const errors = {};
-  if (typeof address !== "string" || address.length === 0) {
+  if (!address || typeof address !== "string" || address.length === 0) {
     errors.address = "Street address is required";
-  }
-  if (typeof city !== "string" || city.length === 0) {
+  };
+  if (!city || typeof city !== "string" || city.length === 0) {
     errors.city = "City is required";
-  }
-  if (typeof state !== "string" || state.length === 0) {
+  };
+  if (!state || typeof state !== "string" || state.length === 0) {
     errors.state = "State is required";
-  }
-  if (typeof country !== "string" || country.length === 0) {
+  };
+  if (!country || typeof country !== "string" || country.length === 0) {
     errors.country = "Country is required";
-  }
-  if (typeof lat !== "number" || lat > 90 || lat < -90) {
+  };
+  if (!lat || typeof lat !== "number" || lat > 90 || lat < -90) {
     errors.lat = "Latitude must be within -90 and 90";
-  }
-  if (typeof lng !== "number" || lng > 180 || lng < -180) {
+  };
+  if (!lng || typeof lng !== "number" || lng > 180 || lng < -180) {
     errors.lng = "Longitude must be within -180 and 180";
-  }
-  if (typeof name !== "string" || name.length > 50) {
+  };
+  if (!name || typeof name !== "string" || name.length > 50) {
     errors.name = "Name must be less than 50 characters";
-  }
-  if (typeof description !== "string" || description.length === 0) {
+  };
+  if (!description || typeof description !== "string" || description.length === 0) {
     errors.description = "Description is required";
-  }
-  if (typeof price !== "number" || price < 0) {
+  };
+  if (!price || typeof price !== "number" || price < 0) {
     errors.price = "Price per day must be a positive number";
-  }
+  };
 
   if (Object.keys(errors).length > 0) {
     const err = new Error("Bad Request");
     err.status = 400;
     err.errors = errors;
     throw err;
-  }
+  };
 
   await spot.update({
     address,
@@ -297,15 +310,15 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
 
   const spot = await Spot.findByPk(spotId);
 
-  if (spot.ownerId !== parseInt(req.user.id)) {
-    let err = new Error("Forbidden");
-    err.status = 403;
-    throw err;
-  };
-
   if (!spot) {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
+    throw err;
+  };
+
+  if (spot.ownerId !== req.user.id) {
+    let err = new Error("Forbidden");
+    err.status = 403;
     throw err;
   };
 
@@ -319,10 +332,14 @@ router.get("/:spotId/reviews", async (req, res, next) => {
     where: {
       spotId: parseInt(req.params.spotId),
     },
-    include: {
+    include: [{
+      model: User,
+      attributes: ['id', 'firstName', 'lastName']
+    },
+    {
       model: ReviewImage,
       attributes: ["id", "url"],
-    },
+    }]
   });
 
   const spot = await Review.findByPk(parseInt(req.params.spotId));
@@ -386,7 +403,7 @@ router.post("/:spotId/reviews", requireAuth, async (req, res, next) => {
     stars: stars,
   });
 
-  res.json(newReview);
+  res.status(201).json(newReview);
 });
 
 module.exports = router;
