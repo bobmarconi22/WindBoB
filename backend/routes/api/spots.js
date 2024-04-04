@@ -46,14 +46,14 @@ router.get("/", async (_req, res, next) => {
         where: {
           id: spot.id,
           preview: true,
-        }
+        },
       });
       if (spotImages.length === 0) {
         spot.dataValues.previewImage = null;
       } else {
         spot.dataValues.previewImage = spotImages[0].dataValues.url;
-      };
-    };
+      }
+    }
 
     res.json({ Spots: spots });
   } catch (error) {
@@ -159,7 +159,11 @@ router.post("/", requireAuth, async (req, res, next) => {
     err.errors.name = "Name must be less than 50 characters";
     err.status = 400;
   }
-  if (!description || typeof description !== "string" || description.length === 0) {
+  if (
+    !description ||
+    typeof description !== "string" ||
+    description.length === 0
+  ) {
     err.errors.description = "Description is required";
     err.status = 400;
   }
@@ -194,23 +198,23 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
     let err = new Error();
     (err.message = "Spot couldn't be found"), (err.status = 404);
     throw err;
-  };
+  }
 
   const spot = await Spot.findByPk(spotId);
 
   if (!spot) {
     let err = new Error();
-    err.message = "Spot couldn't be found"
+    err.message = "Spot couldn't be found";
     err.status = 404;
     throw err;
-  };
+  }
 
-  if(spot.ownerId !== req.user.id){
+  if (spot.ownerId !== req.user.id) {
     let err = new Error();
-    err.message = "Forbidden"
+    err.message = "Forbidden";
     err.status = 403;
     throw err;
-  };
+  }
 
   const { url, preview } = req.body;
   const newImg = await SpotImage.create({
@@ -231,58 +235,62 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
- const spot = await Spot.findByPk(spotId)
+  const spot = await Spot.findByPk(spotId);
 
   if (!spot) {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
-  if(spot.ownerId !== req.user.id){
+  if (spot.ownerId !== req.user.id) {
     let err = new Error();
-    err.message = "Forbidden"
+    err.message = "Forbidden";
     err.status = 403;
     throw err;
-  };
+  }
 
   const errors = {};
   if (!address || typeof address !== "string" || address.length === 0) {
     errors.address = "Street address is required";
-  };
+  }
   if (!city || typeof city !== "string" || city.length === 0) {
     errors.city = "City is required";
-  };
+  }
   if (!state || typeof state !== "string" || state.length === 0) {
     errors.state = "State is required";
-  };
+  }
   if (!country || typeof country !== "string" || country.length === 0) {
     errors.country = "Country is required";
-  };
+  }
   if (!lat || typeof lat !== "number" || lat > 90 || lat < -90) {
     errors.lat = "Latitude must be within -90 and 90";
-  };
+  }
   if (!lng || typeof lng !== "number" || lng > 180 || lng < -180) {
     errors.lng = "Longitude must be within -180 and 180";
-  };
+  }
   if (!name || typeof name !== "string" || name.length > 50) {
     errors.name = "Name must be less than 50 characters";
-  };
-  if (!description || typeof description !== "string" || description.length === 0) {
+  }
+  if (
+    !description ||
+    typeof description !== "string" ||
+    description.length === 0
+  ) {
     errors.description = "Description is required";
-  };
+  }
   if (!price || typeof price !== "number" || price < 0) {
     errors.price = "Price per day must be a positive number";
-  };
+  }
 
   if (Object.keys(errors).length > 0) {
     const err = new Error("Bad Request");
     err.status = 400;
     err.errors = errors;
     throw err;
-  };
+  }
 
   await spot.update({
     address,
@@ -306,7 +314,7 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
   const spot = await Spot.findByPk(spotId);
 
@@ -314,13 +322,13 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
   if (spot.ownerId !== req.user.id) {
     let err = new Error("Forbidden");
     err.status = 403;
     throw err;
-  };
+  }
 
   await spot.destroy();
 
@@ -332,14 +340,16 @@ router.get("/:spotId/reviews", async (req, res, next) => {
     where: {
       spotId: parseInt(req.params.spotId),
     },
-    include: [{
-      model: User,
-      attributes: ['id', 'firstName', 'lastName']
-    },
-    {
-      model: ReviewImage,
-      attributes: ["id", "url"],
-    }]
+    include: [
+      {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
+      {
+        model: ReviewImage,
+        attributes: ["id", "url"],
+      },
+    ],
   });
 
   const spot = await Review.findByPk(parseInt(req.params.spotId));
@@ -361,7 +371,7 @@ router.post("/:spotId/reviews", requireAuth, async (req, res, next) => {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
   const spot = await Review.findByPk(parseInt(req.params.spotId));
 
@@ -413,14 +423,14 @@ router.post("/:spotId/reviews", requireAuth, async (req, res, next) => {
   res.status(201).json(newReview);
 });
 
-router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+router.get("/:spotId/bookings", requireAuth, async (req, res, next) => {
   const spotId = parseInt(req.params.spotId);
 
   if (isNaN(spotId) || spotId < 1) {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
   const spot = await Spot.findByPk(spotId);
 
@@ -428,30 +438,123 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     let err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
-  };
+  }
 
-  if(spot.ownerId === req.user.id){
+  if (spot.ownerId === req.user.id) {
     const bookings = await Booking.findAll({
       where: {
-        spotId: spot.id
+        spotId: spot.id,
       },
       include: {
         model: User,
-        attributes: ['id', 'firstName', 'lastName']
-      }
+        attributes: ["id", "firstName", "lastName"],
+      },
     });
 
-    res.json({ Bookings: bookings});
+    res.json({ Bookings: bookings });
   } else {
     const bookings = await Booking.findAll({
       where: {
-        spotId: spot.id
+        spotId: spot.id,
       },
-      attributes: ['spotId', 'startDate', 'endDate']
-  });
-  res.json({ Bookings: bookings})
-};
+      attributes: ["spotId", "startDate", "endDate"],
+    });
+    res.json({ Bookings: bookings });
+  }
+});
 
+router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
+  const spotId = parseInt(req.params.spotId);
+  const { startDate, endDate } = req.body;
+  if (isNaN(spotId) || spotId < 1) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  };
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  };
+
+  if (req.user.id === spot.ownerId) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  };
+
+  const currentDate = new Date();
+  console.log(new Date(startDate) < currentDate)
+
+  if (
+    !startDate ||
+    !endDate ||
+    new Date(startDate) < currentDate ||
+    new Date(startDate) >= new Date(endDate)
+  ) {
+    const err = new Error();
+    err.errors = {};
+    if (!startDate) {
+      err.errors.startDate = "Start Date is Required";
+      err.status = 400;
+    };
+    if (!endDate) {
+      err.errors.endDate = "End Date is Required";
+      err.status = 400;
+    };
+    if (new Date(startDate) < currentDate) {
+      err.errors.startDate = "startDate cannot be in the past";
+      err.status = 400;
+    };
+    if (new Date(startDate) >= new Date(endDate)) {
+      err.errors.endDate = "endDate cannot be on or before startDate";
+      err.status = 400;
+    };
+    throw err;
+  };
+
+  const spotBookings = await Booking.findAll({
+    where: {
+      spotId: spot.id,
+    },
+  });
+
+  for (const booking of spotBookings) {
+    const err = new Error();
+    err.errors = {};
+    if (new Date(startDate) <= booking.endDate && new Date(startDate) >= booking.startDate) {
+      err.message = ( "Sorry, this spot is already booked for the specified dates")
+      err.errors.startDate = "Start date conflicts with an existing booking";
+      err.status = 403;
+    };
+    if (new Date(endDate) <= booking.endDate && new Date(endDate) >= booking.startDate) {
+      err.message = ( "Sorry, this spot is already booked for the specified dates")
+      err.errors.endDate = "End date conflicts with an existing booking";
+      err.status = 403;
+    };
+
+    if (booking.startDate < new Date(endDate) && booking.startDate > new Date(startDate) && booking.endDate < new Date(endDate) && booking.endDate > new Date(startDate)){
+      err.message = ( "Sorry, this spot is already booked for the specified dates")
+      err.errors.middleDates = `A Booking or bookings exist from within your desired time frame.`;
+      err.status = 403;
+    };
+    console.log(booking === spotBookings[spotBookings.length - 1])
+    if (err.status === 403) {
+      throw err
+    };
+  };
+
+  const newBooking = await Booking.create({
+    spotId: spot.id,
+    userId: req.user.id,
+    startDate: startDate,
+    endDate: endDate,
+  });
+
+  res.json(newBooking);
 });
 
 module.exports = router;
