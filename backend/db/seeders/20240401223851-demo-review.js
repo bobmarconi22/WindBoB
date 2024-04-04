@@ -31,6 +31,24 @@ module.exports = {
           review: "Good time! I might come back",
           stars: 4,
         },
+        {
+          spotId: 2,
+          userId: 2,
+          review: "wowzers",
+          stars: 5,
+        },
+        {
+          spotId: 4,
+          userId: 1,
+          review: "This place stunk",
+          stars: 1,
+        },
+        {
+          spotId: 3,
+          userId: 3,
+          review: "Meh",
+          stars: 3,
+        },
       ],
       {}
     );

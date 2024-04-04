@@ -13,26 +13,27 @@ module.exports = {
     await User.bulkCreate(
       [
         {
-          email: "demo@user.io",
+          email: "owner@user.io",
           firstName: "First1",
           lastName: "Last1",
-          username: "Demo-lition",
+          username: "owns-and-books-spots",
           hashedPassword: bcrypt.hashSync("password"),
         },
+        //! I have set up my seeders so that you only need to log into user 1 to check all endpoints. User 1: owns spots, books from user 2's spots, user 3 is to check proper validations.
         {
-          email: "user1@user.io",
+          email: "consumer@user.io",
           firstName: "First2",
           lastName: "Last2",
-          username: "FakeUser1",
+          username: "books-spots",
           hashedPassword: bcrypt.hashSync("password2"),
         },
         {
-          email: "user2@user.io",
+          email: "otherConsum@user.io",
           firstName: "First3",
           lastName: "Last3",
-          username: "FakeUser2",
+          username: "check-validations",
           hashedPassword: bcrypt.hashSync("password3"),
-        },
+        }
       ],
       { validate: true }
     );

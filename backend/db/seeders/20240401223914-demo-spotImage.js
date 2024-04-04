@@ -26,12 +26,32 @@ module.exports = {
         },
         {
           spotId: 1,
-          url: "Image Url 2",
+          url: "Image Url2",
           preview: false,
         },
         {
           spotId: 1,
-          url: "Image Url 3",
+          url: "Image Url3",
+          preview: false,
+        },
+        {
+          spotId: 2,
+          url: "Image Url",
+          preview: false,
+        },
+        {
+          spotId: 2,
+          url: "Image Url2",
+          preview: false,
+        },
+        {
+          spotId: 3,
+          url: "Image Url",
+          preview: false,
+        },
+        {
+          spotId: 3,
+          url: "Image Url2",
           preview: false,
         },
       ],
