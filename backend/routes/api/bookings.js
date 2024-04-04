@@ -51,7 +51,9 @@ router.get("/current", requireAuth, async (req, res, next) => {
       },
     },
   });
-  console.log(bookings);
+if(!bookings.length){
+    res.json('No Bookings Yet!')
+};
   const payload = bookings.map((booking) => {
     return {
       id: booking.id,
