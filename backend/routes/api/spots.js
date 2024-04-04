@@ -62,11 +62,9 @@ router.get("/", async (_req, res, next) => {
 });
 
 router.get("/current", requireAuth, async (req, res, next) => {
-  const { user } = req;
-  try {
     const spots = await Spot.findAll({
       where: {
-        ownerId: user.id,
+        ownerId: req.user.id,
       },
     });
 
@@ -87,8 +85,6 @@ router.get("/current", requireAuth, async (req, res, next) => {
     }
 
     res.json({ Spots: spots });
-  } catch (error) {
-    next(error);
   }
 });
 
