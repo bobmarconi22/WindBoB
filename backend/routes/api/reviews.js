@@ -32,14 +32,12 @@ router.get("/current", requireAuth, async (req, res, next) => {
       attributes: ["id", "firstName", "lastName"],
     },
   });
-  if (reviews[0].length <= 0) {
+
+  if (reviews.length <= 0) {
     return res.json("No Reviews Yet!");
   }
 
-  const spot = await Spot.findOne({
-    where: {
-      id: reviews[0].spotId,
-    },
+  const spot = await Spot.findByPk(req.user.id, {
     attributes: [
       "id",
       "ownerId",
@@ -66,11 +64,11 @@ router.get("/current", requireAuth, async (req, res, next) => {
 
   const reviewImages = await ReviewImage.findAll({
     where: {
-      reviewId: reviews[0].id,
+      reviewId: req.user.id,
     },
     attributes: ["id", "url"],
   });
-  console.log(spot.SpotImages.length);
+
   const formattedReviews = reviews.map((review) => {
     return {
       id: review.id,
@@ -126,7 +124,12 @@ router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
     throw err;
   }
 
-  console.log(review.ReviewImages.length);
+  if (review.userId !== req.user.id) {
+    let err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
+
   if (review.ReviewImages.length === 10) {
     const err = new Error(
       "Maximum number of images for this resource was reached"
@@ -151,19 +154,19 @@ router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
 router.put("/:reviewId", requireAuth, async (req, res, next) => {
   const { review, stars } = req.body;
   if (isNaN(parseInt(req.params.reviewId))) {
-    const err = new Error("Review couldn't be found");
+    let err = new Error("Review couldn't be found");
     err.status = 404;
     throw err;
   }
   const editReview = await Review.findByPk(parseInt(req.params.reviewId));
 
   if (!editReview) {
-    const err = new Error("Review couldn't be found");
+    let err = new Error("Review couldn't be found");
     err.status = 404;
     throw err;
   }
 
-  if (editReview.userId !== parseInt(req.user.id)) {
+  if (editReview.userId !== req.user.id) {
     const err = new Error("Forbidden");
     err.status = 403;
     throw err;
