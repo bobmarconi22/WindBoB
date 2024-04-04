@@ -23,6 +23,22 @@ module.exports = {
           reviewId: 1,
           url: "Image Url",
         },
+        {
+          reviewId: 1,
+          url: "Image Url2",
+        },
+        {
+          reviewId: 1,
+          url: "Image Url3",
+        },
+        {
+          reviewId: 2,
+          url: "Image Url",
+        },
+        {
+          reviewId: 3,
+          url: "Image Url",
+        },
       ],
       {}
     );
