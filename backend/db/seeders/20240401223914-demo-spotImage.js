@@ -17,8 +17,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert(
-      "SpotImages",
+    await SpotImage.bulkCreate(
       [
         {
           spotId: 1,

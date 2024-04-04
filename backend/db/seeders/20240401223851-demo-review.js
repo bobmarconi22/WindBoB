@@ -17,8 +17,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert(
-      "Reviews",
+    await Review.bulkCreate(
       [
         {
           spotId: 1,

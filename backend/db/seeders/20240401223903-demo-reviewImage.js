@@ -17,8 +17,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert(
-      "ReviewImages",
+    await ReviewImage.bulkCreate(
       [
         {
           reviewId: 1,
