@@ -355,6 +355,13 @@ router.get("/:spotId/reviews", async (req, res, next) => {
 
 router.post("/:spotId/reviews", requireAuth, async (req, res, next) => {
   const { review, stars } = req.body;
+  const spotId = parseInt(req.params.spotId);
+
+  if (isNaN(spotId) || spotId < 1) {
+    let err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  };
 
   const spot = await Review.findByPk(parseInt(req.params.spotId));
 
@@ -404,6 +411,47 @@ router.post("/:spotId/reviews", requireAuth, async (req, res, next) => {
   });
 
   res.status(201).json(newReview);
+});
+
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+  const spotId = parseInt(req.params.spotId);
+
+  if (isNaN(spotId) || spotId < 1) {
+    let err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  };
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    let err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  };
+
+  if(spot.ownerId === req.user.id){
+    const bookings = await Booking.findAll({
+      where: {
+        spotId: spot.id
+      },
+      include: {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName']
+      }
+    });
+
+    res.json({ Bookings: bookings});
+  } else {
+    const bookings = await Booking.findAll({
+      where: {
+        spotId: spot.id
+      },
+      attributes: ['spotId', 'startDate', 'endDate']
+  });
+  res.json({ Bookings: bookings})
+};
+
 });
 
 module.exports = router;
