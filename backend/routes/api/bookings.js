@@ -139,7 +139,6 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
   });
 
   for (const booking of spotBookings) {
-    console.log(booking.id, editBooking.id, booking, editBooking);
     if (booking.id !== editBooking.id) {
       const err = new Error();
       err.errors = {};

@@ -62,15 +62,17 @@ router.get("/current", requireAuth, async (req, res, next) => {
     ],
   });
 
-  const reviewImages = await ReviewImage.findAll({
-    where: {
-      reviewId: req.user.id,
-    },
-    attributes: ["id", "url"],
-  });
+  const payload = [];
 
-  const formattedReviews = reviews.map((review) => {
-    return {
+  for(const review of reviews) {
+    const reviewImagesArr = await ReviewImage.findAll({
+      where: {
+        reviewId: review.id,
+      },
+      attributes: ["id", "url"],
+    });
+
+    const instance = {
       id: review.id,
       userId: review.User.id,
       spotId: review.spotId,
@@ -97,17 +99,14 @@ router.get("/current", requireAuth, async (req, res, next) => {
         previewImage:
           spot.SpotImages.length > 0 ? spot.SpotImages[0].url : null,
       },
-      ReviewImages: reviewImages.map((image) => ({
-        id: image.id,
-        url: image.url,
-      })),
+      ReviewImages: reviewImagesArr
     };
-  });
+    payload.push(instance);
+  }
 
-  const payload = { Reviews: formattedReviews };
-
-  res.json(payload);
+  res.json({ Reviews: payload });
 });
+
 
 router.post("/:reviewId/images", requireAuth, async (req, res, next) => {
   const { url } = req.body;
@@ -205,7 +204,7 @@ router.delete("/:reviewId", requireAuth, async (req, res, next) => {
     let err = new Error("Review couldn't be found");
     err.status = 404;
     throw err;
-  }
+  };
 
   const review = await Review.findByPk(reviewId);
 
@@ -213,13 +212,13 @@ router.delete("/:reviewId", requireAuth, async (req, res, next) => {
     let err = new Error("Review couldn't be found");
     err.status = 404;
     throw err;
-  }
+  };
 
   if (review.userId !== parseInt(req.user.id)) {
     let err = new Error("Forbidden");
     err.status = 403;
     throw err;
-  }
+  };
 
   await review.destroy();
 
