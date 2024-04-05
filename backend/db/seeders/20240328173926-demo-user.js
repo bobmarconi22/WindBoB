@@ -19,7 +19,6 @@ module.exports = {
           username: "owns-and-books-spots",
           hashedPassword: bcrypt.hashSync("password"),
         },
-        //! I have set up my seeders so that you only need to log into user 1 to check all endpoints. User 1: owns spots, books from user 2's spots, user 3 is to check proper validations.
         {
           email: "consumer@user.io",
           firstName: "First2",

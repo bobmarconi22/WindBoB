@@ -59,7 +59,6 @@ router.get("/", async (req, res, next) => {
   if (isNaN(size) || !size || size > 20) size = 20;
 
 
-
   // errors
   const err = new Error();
   err.errors = {};
