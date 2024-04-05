@@ -36,29 +36,127 @@ async function findAvgStars(...spots) {
   }
 }
 
-router.get("/", async (_req, res, next) => {
-  try {
-    const spots = await Spot.findAll();
-    await findAvgStars(spots);
+router.get("/", async (req, res, next) => {
+  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
+    req.query;
 
-    for (const spot of spots) {
-      const spotImages = await SpotImage.findAll({
-        where: {
-          id: spot.id,
-          preview: true,
-        },
-      });
-      if (spotImages.length === 0) {
-        spot.dataValues.previewImage = null;
-      } else {
-        spot.dataValues.previewImage = spotImages[0].dataValues.url;
-      }
-    }
+  if (isNaN(page) || !page) page = 1;
+  if (page > 10) page = 10;
+  if (isNaN(size) || !size || size > 20) size = 20;
 
-    res.json({ Spots: spots });
-  } catch (error) {
-    next(error);
+  // errors
+  const err = new Error();
+  err.errors = {};
+  if (page < 0) {
+    err.errors.page = "Page must be greater than or equal to 1";
+    err.status = 400;
   }
+  if (size < 0) {
+    err.errors.size = "Size must be greater than or equal to 1";
+  }
+  if (minLat && maxLat) {
+    if (minLat > maxLat) {
+      err.errors.minLat =
+        "Minimum latitude cannot be greater than maximum latitude";
+      err.errors.maxLat =
+        "Maximum latitude cannot be less than minimum latitude";
+      err.status = 400;
+    }
+  }
+  if (minLat > 90 || minLat < -90) {
+    err.errors.minLat = "Minimum latitude is invalid";
+    err.status = 400;
+  }
+  if (maxLat > 90 || maxLat < -90) {
+    err.errors.maxLat = "Maximum latitude is invalid";
+    err.status = 400;
+  }
+  if (minLng && maxLng) {
+    if (minLng > maxLng) {
+      err.errors.minLng =
+        "Minimum longitude cannot be greater than maximum longitude";
+      err.errors.maxLng =
+        "Maximum longitude cannot be less than minimum longitude";
+      err.status = 400;
+    }
+  }
+  if (minLng > 180 || minLng < -180) {
+    err.errors.minLng = "Minimum longitude is invalid";
+    err.status = 400;
+  }
+  if (maxLng > 180 || maxLng < -180) {
+    err.errors.maxLng = "Maximum longitude is invalid";
+    err.status = 400;
+  }
+  if (minPrice && maxPrice) {
+    if (minPrice > maxPrice) {
+      err.errors.minPrice =
+        "Minimum price cannot be greater than maximum price";
+      err.errors.maxPrice = "Maximum price cannot be less than minimum price";
+    }
+  }
+  if (minPrice < 0) {
+    err.errors.minPrice = "Minimum price must be greater than or equal to 0";
+    err.status = 400;
+  }
+  if (maxPrice < 0) {
+    err.errors.maxPrice = "Maximum price must be greater than or equal to 0";
+    err.status = 400;
+  }
+  if (err.status === 400) {
+    throw err;
+  }
+
+  const where = {};
+
+  if (!minLat) {
+    minLat = -90;
+  }
+  if (!maxLat) {
+    maxLat = 90;
+  }
+  where.lat = {
+    [Op.between]: [minLat, maxLat],
+  };
+
+  if (!minLng) {
+    minLng = -180;
+  }
+  if (!maxLng) {
+    maxLng = 180;
+  }
+  where.lng = {
+    [Op.between]: [minLng, maxLng],
+  };
+
+  if (!minPrice) {
+    minPrice = 0;
+  }
+  if (!maxPrice) {
+    maxPrice = Infinity;
+  }
+  where.price = {
+    [Op.between]: [minPrice, maxPrice],
+  };
+
+  const spots = await Spot.findAll({ where });
+  await findAvgStars(spots);
+
+  for (const spot of spots) {
+    const spotImages = await SpotImage.findAll({
+      where: {
+        id: spot.id,
+        preview: true,
+      },
+    });
+    if (spotImages.length === 0) {
+      spot.dataValues.previewImage = null;
+    } else {
+      spot.dataValues.previewImage = spotImages[0].dataValues.url;
+    }
+  }
+
+  res.json({ Spots: spots, page, size });
 });
 
 router.get("/current", requireAuth, async (req, res, next) => {
@@ -226,7 +324,7 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
   const payload = {
     id: newImg.id,
     url: newImg.url,
-    preview: newImg.preview
+    preview: newImg.preview,
   };
 
   res.json(payload);
