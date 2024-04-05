@@ -62,9 +62,11 @@ router.get("/", async (_req, res, next) => {
 });
 
 router.get("/current", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  try {
     const spots = await Spot.findAll({
       where: {
-        ownerId: req.user.id,
+        ownerId: user.id,
       },
     });
 
@@ -85,6 +87,8 @@ router.get("/current", requireAuth, async (req, res, next) => {
     }
 
     res.json({ Spots: spots });
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -219,7 +223,13 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
     preview: preview,
   });
 
-  res.json(newImg);
+  const payload = {
+    id: newImg.id,
+    url: newImg.url,
+    preview: newImg.preview
+  };
+
+  res.json(payload);
 });
 
 router.put("/:spotId", requireAuth, async (req, res, next) => {

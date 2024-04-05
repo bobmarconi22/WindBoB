@@ -27,52 +27,36 @@ router.get("/current", requireAuth, async (req, res, next) => {
     where: {
       userId: req.user.id,
     },
-    include: {
-      model: Spot,
-      attributes: [
-        "id",
-        "ownerId",
-        "address",
-        "city",
-        "state",
-        "country",
-        "lat",
-        "lng",
-        "name",
-        "description",
-        "price",
-      ],
-      include: {
-        model: SpotImage,
-        attributes: ["url"],
-        where: {
-          preview: true,
-        },
-      },
-    },
   });
+
   if (!bookings.length) {
     res.json("No Bookings Yet!");
   }
-  const payload = bookings.map((booking) => {
-    return {
+
+  const payload = [];
+
+  for (const booking of bookings) {
+    const spot = await Spot.findByPk(booking.spotId, {
+      include: {
+        model: SpotImage,
+      },
+    });
+    let instance = {
       id: booking.id,
       spotId: booking.spotId,
       Spot: {
-        id: booking.Spot.id,
-        ownerId: booking.Spot.ownerId,
-        address: booking.Spot.address,
-        city: booking.Spot.city,
-        state: booking.Spot.state,
-        country: booking.Spot.country,
-        lat: booking.Spot.lat,
-        lng: booking.Spot.lng,
-        name: booking.Spot.name,
-        price: booking.Spot.price,
+        id: spot.id,
+        ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: spot.lat,
+        lng: spot.lng,
+        name: spot.name,
+        price: spot.price,
         previewImage:
-          booking.Spot.SpotImages.length > 0
-            ? booking.Spot.SpotImages[0].url
-            : null,
+          spot.SpotImages.length > 0 ? spot.SpotImages[0].url : null,
       },
       userId: booking.userId,
       startDate: booking.startDate,
@@ -80,7 +64,8 @@ router.get("/current", requireAuth, async (req, res, next) => {
       createdAt: booking.createdAt,
       updatedAt: booking.updatedAt,
     };
-  });
+    payload.push(instance);
+  }
 
   res.json({ Bookings: payload });
 });
@@ -220,7 +205,7 @@ router.delete("/:bookingId", requireAuth, async (req, res, next) => {
 
   const spot = await Spot.findByPk(booking.spotId);
 
-  if (req.user.id !== booking.userId || req.user.id !== spot.ownerId) {
+  if (req.user.id !== booking.userId && req.user.id !== spot.ownerId) {
     const err = new Error("Forbidden");
     err.status = 403;
     throw err;
