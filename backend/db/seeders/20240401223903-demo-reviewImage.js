@@ -32,11 +32,11 @@ module.exports = {
           url: "Image Url3",
         },
         {
-          reviewId: 2,
+          reviewId: 4,
           url: "Image Url",
         },
         {
-          reviewId: 3,
+          reviewId: 4,
           url: "Image Url",
         },
       ],
