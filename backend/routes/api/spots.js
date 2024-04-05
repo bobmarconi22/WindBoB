@@ -37,7 +37,7 @@ async function findAvgStars(...spots) {
 }
 
 router.get("/", async (req, res, next) => {
-  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = 
+  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
     req.query;
 
   // const defaultMinLat = -90;
