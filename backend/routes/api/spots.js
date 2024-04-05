@@ -53,6 +53,9 @@ router.get("/", async (req, res, next) => {
   // maxLng = maxLng !== undefined ? maxLng : defaultMaxLng;
   // minPrice = minPrice !== undefined ? minPrice : defaultMinPrice;
   // maxPrice = maxPrice !== undefined ? maxPrice : defaultMaxPrice;
+  
+  page = parseInt(page);
+  size = parseInt(size);
 
   if (isNaN(page) || !page) page = 1;
   if (page > 10) page = 10;
