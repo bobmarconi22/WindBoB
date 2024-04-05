@@ -142,19 +142,19 @@ router.get("/", async (req, res, next) => {
   const spots = await Spot.findAll({ where });
   await findAvgStars(spots);
 
-  for (const spot of spots) {
-    const spotImages = await SpotImage.findAll({
-      where: {
-        id: spot.id,
-        preview: true,
-      },
-    });
-    if (spotImages.length === 0) {
-      spot.dataValues.previewImage = null;
-    } else {
-      spot.dataValues.previewImage = spotImages[0].dataValues.url;
+    for (const spot of spots) {
+      const spotImages = await SpotImage.findAll({
+        where: {
+          id: spot.id,
+          preview: true,
+        },
+      });
+      if (spotImages.length === 0) {
+        spot.dataValues.previewImage = "no image available";
+      } else {
+        spot.dataValues.previewImage = spotImages[0].dataValues.url;
+      }
     }
-  }
 
   res.json({ Spots: spots, page, size });
 });
@@ -178,7 +178,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
         },
       });
       if (spotImages.length === 0) {
-        spot.dataValues.previewImage = null;
+        spot.dataValues.previewImage = "no image available";
       } else {
         spot.dataValues.previewImage = spotImages[0].dataValues.url;
       }
@@ -219,7 +219,26 @@ router.get("/:spotId", async (req, res, next) => {
 
   spot.dataValues.numReviews = reviews.length;
   await findAvgStars(spot);
-  res.json(spot);
+  const payload = {
+    id: spot.id,
+    ownerId: spot.ownerId,
+    address: spot.address,
+    city: spot.city,
+    state: spot.state,
+    country: spot.country,
+    lat: spot.lat,
+    lng: spot.lng,
+    name: spot.name,
+    description: spot.description,
+    price: spot.price,
+    createdAt: spot.createdAt,
+    updatedAt: spot.updatedAt,
+    numReviews: spot.dataValues.numReviews,
+    avgStarRating: spot.dataValues.avgRating,
+    SpotImages: spot.SpotImages,
+    Owner: spot.Owner,
+  }
+  res.json(payload);
 });
 
 router.post("/", requireAuth, async (req, res, next) => {
@@ -658,7 +677,6 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
       err.errors.middleDates = `A Booking or bookings exist from within your desired time frame.`;
       err.status = 403;
     }
-    console.log(booking === spotBookings[spotBookings.length - 1]);
     if (err.status === 403) {
       throw err;
     }
