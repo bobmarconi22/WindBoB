@@ -188,9 +188,9 @@ router.get("/current", requireAuth, async (req, res, next) => {
     };
 
     for(const spot of spots){
-      spot.dataValues.lat = parseInt(spot.lat);
-      spot.dataValues.lng = parseInt(spot.lng);
-      spot.dataValues.price = parseInt(spot.price);
+      spot.dataValues.lat = parseFloat(spot.lat);
+      spot.dataValues.lng = parseFloat(spot.lng);
+      spot.dataValues.price = parseFloat(spot.price);
     };
 
     res.json({ Spots: spots });
@@ -235,11 +235,11 @@ router.get("/:spotId", async (req, res, next) => {
     city: spot.city,
     state: spot.state,
     country: spot.country,
-    lat: parseInt(spot.lat),
-    lng: parseInt(spot.lng),
+    lat: parseFloat(spot.lat),
+    lng: parseFloat(spot.lng),
     name: spot.name,
     description: spot.description,
-    price: parseInt(spot.price),
+    price: parseFloat(spot.price),
     createdAt: spot.createdAt,
     updatedAt: spot.updatedAt,
     numReviews: spot.dataValues.numReviews,
@@ -260,31 +260,31 @@ router.post("/", requireAuth, async (req, res, next) => {
   if (!address || typeof address !== "string" || address.length === 0) {
     err.errors.address = "Street address is required";
     err.status = 400;
-  }
+  };
   if (!city || typeof city !== "string" || city.length === 0) {
     err.errors.city = "City is required";
     err.status = 400;
-  }
+  };
   if (!state || typeof state !== "string" || state.length === 0) {
     err.errors.state = "State is required";
     err.status = 400;
-  }
+  };
   if (!country || typeof country !== "string" || country.length === 0) {
     err.errors.country = "Country is required";
     err.status = 400;
-  }
+  };
   if (!lat || typeof lat !== "number" || lat > 90 || lat < -90) {
     err.errors.lat = "Latitude must be within -90 and 90";
     err.status = 400;
-  }
+  };
   if (!lng || typeof lng !== "number" || lng > 180 || lng < -180) {
     err.errors.lng = "Longitude must be within -180 and 180";
     err.status = 400;
-  }
+  };
   if (!name || typeof name !== "string" || name.length > 50) {
     err.errors.name = "Name must be less than 50 characters";
     err.status = 400;
-  }
+  };
   if (
     !description ||
     typeof description !== "string" ||
@@ -292,15 +292,15 @@ router.post("/", requireAuth, async (req, res, next) => {
   ) {
     err.errors.description = "Description is required";
     err.status = 400;
-  }
+  };
   if (!price || typeof price !== "number" || price < 0) {
     err.errors.price = "Price per day must be a positive number";
     err.status = 400;
-  }
+  };
   if (err.status === 400) {
     err.message = "Bad Request";
     throw err;
-  }
+  };
 
   let spot = await Spot.create({
     address: address,
@@ -308,11 +308,11 @@ router.post("/", requireAuth, async (req, res, next) => {
     city: city,
     state: state,
     country: country,
-    lat: lat,
-    lng: lng,
+    lat: parseFloat(lat),
+    lng: parseFloat(lng),
     name: name,
     description: description,
-    price: price,
+    price: parseFloat(price),
   });
   res.status(201).json(spot);
 });
