@@ -35,7 +35,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
 
   if (reviews.length <= 0) {
     return res.json("No Reviews Yet!");
-  }
+  };
 
   const spot = await Spot.findByPk(req.user.id, {
     attributes: [
