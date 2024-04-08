@@ -317,7 +317,7 @@ router.post("/", requireAuth, async (req, res, next) => {
 
   spot.dataValues.lat = parseFloat(spot.lat);
   spot.dataValues.lng = parseFloat(spot.lng);
-  spot.dataValues.price = parseFloat(spot.price)
+  spot.dataValues.price = parseFloat(spot.price);
 
   res.status(201).json(spot);
 });
