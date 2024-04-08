@@ -37,7 +37,7 @@ async function findAvgStars(...spots) {
 }
 
 router.get("/", async (req, res, next) => {
-  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
+  let { page = 1, size = 20, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
     req.query;
 
   // const defaultMinLat = -90;
@@ -53,23 +53,24 @@ router.get("/", async (req, res, next) => {
   // maxLng = maxLng !== undefined ? maxLng : defaultMaxLng;
   // minPrice = minPrice !== undefined ? minPrice : defaultMinPrice;
   // maxPrice = maxPrice !== undefined ? maxPrice : defaultMaxPrice;
-  
+
   page = parseInt(page);
   size = parseInt(size);
 
-  if (isNaN(page) || !page) page = 1;
+  if (isNaN(page)) page = 1;
   if (page > 10) page = 10;
-  if (isNaN(size) || !size || size > 20) size = 20;
-
+  if (isNaN(size) || size > 20) size = 20;
 
   // errors
   const err = new Error();
   err.errors = {};
   if (page < 1) {
+    err.message = "Bad Request";
     err.errors.page = "Page must be greater than or equal to 1";
     err.status = 400;
   }
   if (size < 1) {
+    err.message = "Bad Request";
     err.errors.size = "Size must be greater than or equal to 1";
     err.status = 400;
   }
@@ -151,6 +152,12 @@ router.get("/", async (req, res, next) => {
       spot.dataValues.previewImage = spotImages[0].dataValues.url;
     }
   }
+for(const spot of spots){
+  spot.dataValues.lat = parseInt(spot.lat);
+  spot.dataValues.lng = parseInt(spot.lng);
+  spot.dataValues.price = parseInt(spot.price);
+};
+
 
   res.json({ Spots: spots, page, size });
 });
@@ -178,7 +185,13 @@ router.get("/current", requireAuth, async (req, res, next) => {
       } else {
         spot.dataValues.previewImage = spotImages[0].dataValues.url;
       }
-    }
+    };
+
+    for(const spot of spots){
+      spot.dataValues.lat = parseInt(spot.lat);
+      spot.dataValues.lng = parseInt(spot.lng);
+      spot.dataValues.price = parseInt(spot.price);
+    };
 
     res.json({ Spots: spots });
   } catch (error) {
@@ -222,11 +235,11 @@ router.get("/:spotId", async (req, res, next) => {
     city: spot.city,
     state: spot.state,
     country: spot.country,
-    lat: spot.lat,
-    lng: spot.lng,
+    lat: parseInt(spot.lat),
+    lng: parseInt(spot.lng),
     name: spot.name,
     description: spot.description,
-    price: spot.price,
+    price: parseInt(spot.price),
     createdAt: spot.createdAt,
     updatedAt: spot.updatedAt,
     numReviews: spot.dataValues.numReviews,
