@@ -153,9 +153,9 @@ router.get("/", async (req, res, next) => {
     }
   }
 for(const spot of spots){
-  spot.dataValues.lat = parseInt(spot.lat);
-  spot.dataValues.lng = parseInt(spot.lng);
-  spot.dataValues.price = parseInt(spot.price);
+  spot.dataValues.lat = parseFloat(spot.lat);
+  spot.dataValues.lng = parseFloat(spot.lng);
+  spot.dataValues.price = parseFloat(spot.price);
 };
 
 
