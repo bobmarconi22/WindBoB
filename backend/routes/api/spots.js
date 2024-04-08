@@ -308,12 +308,17 @@ router.post("/", requireAuth, async (req, res, next) => {
     city: city,
     state: state,
     country: country,
-    lat: parseFloat(lat),
-    lng: parseFloat(lng),
+    lat: lat,
+    lng: lng,
     name: name,
     description: description,
-    price: parseFloat(price),
+    price: price,
   });
+
+  spot.dataValues.lat = parseFloat(spot.lat);
+  spot.dataValues.lng = parseFloat(spot.lng);
+  spot.dataValues.price = parseFloat(spot.price)
+
   res.status(201).json(spot);
 });
 

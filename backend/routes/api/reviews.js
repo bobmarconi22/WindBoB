@@ -92,7 +92,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
         city: spot.city,
         state: spot.state,
         country: spot.country,
-        lat: [parseFloat](spot.lat),
+        lat: parseFloat(spot.lat),
         lng: parseFloat(spot.lng),
         name: spot.name,
         price: parseFloat(spot.price),
