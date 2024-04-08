@@ -329,7 +329,7 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
     let err = new Error();
     (err.message = "Spot couldn't be found"), (err.status = 404);
     throw err;
-  }
+  };
 
   const spot = await Spot.findByPk(spotId);
 
