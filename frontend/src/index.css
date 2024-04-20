@@ -1,1 +1,38 @@
 /* TODO: Add sitewide styles */
+*{
+    text-decoration: none;
+}
+
+#spots{
+    display: flex;
+    flex-shrink: inherit;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 98%;
+}
+
+.spot-tile{
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: center;
+    align-items: center;
+    color: black;
+    width: 600px;
+    height: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.spot-tile:hover{
+    box-shadow: 10px 5px 5px black;
+}
+
+.spot-tile > img {
+    padding-bottom: 15px;
+    width: 100%;
+    padding-bottom: 50px;
+}
