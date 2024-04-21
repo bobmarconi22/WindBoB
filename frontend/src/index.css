@@ -56,15 +56,20 @@ button:hover{
 #new-spot-btn{
     position: absolute;
     right: 0;
-    margin-right: 75px;
-    border-radius: 8px;
-}
-
-#user-btn{
-    border-radius: 50px;
+    margin-right: 67px;
+    border-radius: 15px;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#user-btn{
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
 }
 
 #spots{
