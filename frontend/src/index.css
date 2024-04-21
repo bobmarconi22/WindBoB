@@ -3,36 +3,135 @@
     text-decoration: none;
 }
 
+nav{
+    border-bottom: 1px solid rgb(22,65,73);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    margin-bottom: 15px;
+    position: fixed;
+    top: 0;
+    width: 96%;
+    background-color: white;
+    z-index: 1;
+    padding-right: 15px;
+    padding-top: 22px;
+}
+
+#nav-spacer{
+    height: 80px;
+}
+
+#logo{
+    color: rgb(22,65,73);
+    height: 75px;
+    width: 150px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+}
+
+#logo:hover{
+   height: 76px;
+   width: 151px
+}
+
+button{
+    height: 30px;
+    background-color: rgb(22,65,73);
+    border: 1px solid rgb(22,65,73);
+    border-radius: 5px;
+    color: white;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: rgb(111,223,197,0.35);
+    color: rgb(22,65,73);
+    box-shadow: 4px 3px 8px rgb(111,223,197,0.6);
+    border: 1px solid rgb(22,65,73);
+}
+
+#new-spot-btn{
+    position: absolute;
+    right: 0;
+    margin-right: 75px;
+    border-radius: 8px;
+}
+
+#user-btn{
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #spots{
     display: flex;
     flex-shrink: inherit;
     flex-wrap: wrap;
     justify-content: center;
-    max-width: 98%;
+    margin: 0 auto;
 }
 
 .spot-tile{
-    border: 1px solid black;
+    border: 1px solid rgb(22,65,73);
     border-radius: 5px;
     text-align: center;
     align-items: center;
-    color: black;
-    width: 600px;
-    height: 300px;
+    color: rgb(22,65,73);
+    width: 250px;
+    height: 250px;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
     margin: 20px;
 }
 
 .spot-tile:hover{
-    box-shadow: 10px 5px 5px black;
+    box-shadow: 4px 3px 8px rgb(111,223,197,0.6);
+}
+
+.spot-name{
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: 5px;
+    margin-bottom: 58px;
+    border-bottom: 2px solid rgb(111,223,197);
+}
+
+.spot-price{
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 8px;
+}
+
+.spot-rating{
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: 8px;
+}
+
+.spot-location{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 35px;
+    font-size: 14px;
 }
 
 .spot-tile > img {
-    padding-bottom: 15px;
-    width: 100%;
-    padding-bottom: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: rgb(22,65,73);
 }

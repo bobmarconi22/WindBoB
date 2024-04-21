@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton-bonus';
 import './Navigation.css';
@@ -6,17 +6,21 @@ import './Navigation.css';
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
+  const redirect = useNavigate()
+  const createNewSpot = () => {
+    redirect('/spots/new')
+  }
+
   return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
-      )}
-    </ul>
+    <>
+    <div id='nav-spacer'></div>
+    <nav>
+        <NavLink to="/"><img id='logo' src="/windbob.png" alt="windbob logo"/></NavLink>
+        <button id='new-spot-btn' onClick={createNewSpot}>New Spot</button>
+      {isLoaded && (<ProfileButton user={sessionUser} />)}
+    </nav>
+    </>
+
   );
 }
 
