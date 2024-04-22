@@ -10,12 +10,17 @@ function LoginFormPage() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isDemoUser, setIsDemoUser] = useState(false);
 
   if (sessionUser) return <Navigate to="/" replace={true} />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
+    if (isDemoUser) {
+      setCredential('owner@user.io');
+      setPassword('password');
+    }
     return dispatch(sessionActions.login({ credential, password })).catch(
       async (res) => {
         const data = await res.json();
@@ -27,7 +32,7 @@ function LoginFormPage() {
   return (
     <>
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form id='login-form' onSubmit={handleSubmit}>
         <label>
           Username or Email
           <input
@@ -48,6 +53,15 @@ function LoginFormPage() {
         </label>
         {errors.credential && <p>{errors.credential}</p>}
         <button type="submit">Log In</button>
+        <button
+        type='button'
+        onClick={() => {
+          setIsDemoUser(true);
+          document.getElementById('login-form').submit();
+        }}
+      >
+        Log In Demo User
+      </button>
       </form>
     </>
   );
