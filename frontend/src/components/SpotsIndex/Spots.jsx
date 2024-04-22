@@ -17,71 +17,48 @@ function Spots() {
     const styleRatings = (rating) =>{
         if (rating < 2){
             return {
-                color: 'red',
-                fontSize: '16px',
-                border: '1px solid rgb(22,65,73)',
-                borderRadius: '3px',
-                boxShadow: '2px 2px 5px',
-                padding: '2px',
+                color: 'rgb(200, 0, 0)',
+                marginRight: '12px'
             }
         }
         if (rating >= 2 && rating < 4) {
             return {
-                color: 'orange',
-                fontSize: '16px',
-                border: '1px solid rgb(22,65,73)',
-                borderRadius: '3px',
-                boxShadow: '2px 2px 5px',
-                padding: '2px',
+                color: 'rgb(255, 178, 23)',
+                marginRight: '12px'
             }
         }
         if (rating >= 4 && rating < 5) {
             return {
                 color: 'green',
-                fontSize: '16px',
-                border: '1px solid rgb(22,65,73)',
-                borderRadius: '3px',
-                boxShadow: '2px 2px 5px',
-                padding: '2px',
-
+                marginRight: '12px'
             }
         }
         if (rating === 5) {
             return {
-                color: '#4CBB17',
-                fontSize: '16px',
-                border: '1px solid rgb(22,65,73)',
-                borderRadius: '3px',
-                boxShadow: '2px 2px 5px',
-                padding: '2px',
-
-
+                color: 'rgb(111,223,197)',
+                textShadow: '-1px -1px 0 rgb(22,65,73), 1px -1px 0 rgb(22,65,73), -1px 1px 0 rgb(22,65,73), 1px 1px 0 rgb(22,65,73)',
+                marginRight: '12px'
             }
         }
         if (rating === undefined) {
             return {
                 color: 'rgb(22,65,73)',
-                fontSize: '16px',
-                border: '1px solid rgb(22,65,73)',
-                borderRadius: '3px',
-                boxShadow: '2px 2px 5px rgb(22,65,73)',
-                padding: '2px',
-
+                textShadow: '-1px -1px 0 rgb(111,223,197), 1px -1px 0 rgb(111,223,197), -1px 1px 0 rgb(111,223,197), 1px 1px 0 rgb(111,223,197)'
             }
         }
     }
 
-    // styleRatings(spot.avgRating)
-
     return (
         <div id="spots">
-            {isLoaded &&  Object.values(spots).map((spot) => (
-                <NavLink className="spot-tile" key={spot.id} to={`/spots/${spot.id}`}>
-                    <img src={spot.previewImage} alt={`${spot.name} Preview Image`} />
-                    <h2 className="spot-name">{spot.name}</h2>
-                    <p className="spot-location">{`${spot.city}, ${spot.state}`}</p>
-                    <p className="spot-rating">Rating: <b style={styleRatings(spot.avgRating)}>{`${spot.avgRating !== undefined ? (Number.isInteger(spot.avgRating) ? spot.avgRating.toFixed(1) : spot.avgRating) : 'New'}`}</b></p>
-                    <p className="spot-price"> <b>{`$${spot.price}`}</b> / night</p>
+            {isLoaded  && Object.values(spots).map((spot) => (
+                spot.id && !spot.Owner && <NavLink className="spot-tile" key={spot.id} to={`/spots/${spot.id}`}>
+                    <img className="preview-img" key={spot.id} src={spot.previewImage} alt={`${spot.name} Preview Image`} />
+                    <h2 key={spot.name} className="spot-name">{spot.name}</h2>
+                    <div id="location-reviews"></div>
+                    <p key={spot.city} className="spot-location">{`${spot.city}, ${spot.state}`}</p>
+                    <img src="./public/star.png" alt="star-icon" id="star-icon" />
+                    <p key={spot.rating} className="spot-rating"><b className="rating-nums" style={styleRatings(spot.avgRating)}>{`${spot.avgRating !== undefined ? (Number.isInteger(spot.avgRating) ? spot.avgRating.toFixed(1) : spot.avgRating) : 'New'}`}</b></p>
+                    <p key={spot.price} className="spot-price"> <b>{`$${spot.price}`}</b> / night</p>
                 </NavLink>
             ))}
         </div>
