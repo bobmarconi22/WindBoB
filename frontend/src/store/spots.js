@@ -1,6 +1,7 @@
 
 const LOAD_SPOTS = "LOAD_SPOTS"
 const LOAD_SPOT_BY_ID = "LOAD_SPOT_BY_ID"
+const LOAD_REVIEWS = "LOAD_REVIEWS"
 
 export const loadSpots = (spots) => ({
     type: LOAD_SPOTS,
@@ -10,6 +11,11 @@ export const loadSpots = (spots) => ({
 export const loadSpotById = (spot) => ({
     type: LOAD_SPOT_BY_ID,
     payload: spot
+})
+
+export const loadReviews = (reviews) => ({
+    type: LOAD_REVIEWS,
+    payload: reviews
 })
 
 export const fetchSpots = (spotId) => async (dispatch) => {
@@ -24,8 +30,12 @@ export const fetchSpots = (spotId) => async (dispatch) => {
         dispatch(loadSpotById(spot));
         return res;
     }
+}
 
-
+export const fetchReviews = (spotId) => async (dispatch) => {
+    const res = await fetch(`/api/spots/${spotId}/reviews`);
+    const reviews = await res.json();
+    dispatch(loadReviews(reviews))
 }
 
 

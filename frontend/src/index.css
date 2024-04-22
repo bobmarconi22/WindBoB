@@ -14,7 +14,7 @@ nav{
     top: 0;
     width: 96%;
     background-color: white;
-    z-index: 1;
+    z-index: 999;
     padding-right: 15px;
     padding-top: 22px;
 }
@@ -37,7 +37,7 @@ button{
     background-color: rgb(22,65,73);
     border: 1px solid rgb(22,65,73);
     border-radius: 5px;
-    color: white;
+    color: mintcream;
     box-shadow: 4px 3px 15px rgb(22,65,73,0.6);
 
 }
@@ -55,7 +55,7 @@ button:disabled:hover{
     background-color: rgb(22,65,73);
     border: 1px solid rgb(22,65,73);
     border-radius: 5px;
-    color: white;
+    color: mintcream;
     box-shadow: 4px 3px 15px rgb(22,65,73,0.6);
 }
 
@@ -196,7 +196,7 @@ button:disabled:hover{
     background-color: rgb(22,65,73);
     border-radius: 10px;
     padding: 4px;
-    color: white;
+    color: mintcream;
 }
 
 #small-images{
@@ -207,7 +207,7 @@ button:disabled:hover{
     background-color: rgb(22,65,73);
     border-radius: 10px;
     padding: 4px;
-    color: white;
+    color: mintcream;
     height: 500px;
     min-width: 97%;
 
@@ -288,5 +288,66 @@ button:disabled:hover{
     margin-top: 15px;
     display: flex;
     justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+}
+
+#detail-reviews-header{
+    text-align: center;
+    border-bottom: 2px solid rgb(111,223,197);
+}
+
+#reviews-body{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0px;
+}
+
+.indiv-review{
+    border-bottom: 1px solid rgb(22,65,73,0.4);
+    position: relative;
+    left: 0;
+    padding: 15px;
+}
+
+.indiv-review:hover{
+    border-bottom: 1px solid rgb(111,223,197,0.5);
+    background-color: rgb(111,223,197,0.3);
+}
+
+.rev-user-name{
+    color: rgb(22,65,73,0.4);
+    padding-bottom: 10px;
+    position: absolute;
+    top: 0;
+}
+
+.rev-review{
+    margin-right: 5px;
+    margin-bottom: 15px;
+    padding: 8px;
+    width: 75%;
+}
+
+.rev-date{
+    margin-bottom: 0px;
+    margin-top: 30px;
+}
+
+.rev-stars{
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin-right: 10px;
+    color: rgb(22,65,73);
+
+}
+
+#no-reviews{
+    text-align: center;
+    color: rgb(22,65,73);
 
 }
