@@ -14,7 +14,6 @@ function SpotShow(){
         dispatch(fetchSpots(spotId)).then(() => {
             setIsLoaded(true);
         });
-        
     }, [dispatch, spotId]);
 
     return (
@@ -44,9 +43,8 @@ function SpotShow(){
                         </div>
                         <div id="detail-reviews">
                             <div id="detail-review-header">
-                                {spot.numReviews ? (spot.numReviews === 1 ? (Number.isInteger(spot.avgStarRating) ? (<p>{spot.numReviews} Review · {spot.avgStarRating.toFixed(1)} Average Stars</p>) : (<p>spot.numReviews} Reviews · {spot.avgStarRating} Average Stars</p>)) : (<p>{spot.numReviews} Reviews · {spot.avgStarRating} Average Stars</p>)) : (<p>- Average Stars</p>)}
+                                {spot.numReviews ? (spot.numReviews === 1 ? (Number.isInteger(spot.avgStarRating) ? (<p>{spot.numReviews} Review · {spot.avgStarRating.toFixed(1)} Average Stars</p>) : (<p>{spot.numReviews} Review · {spot.avgStarRating.toFixed(1)} Average Stars</p>)) : (<p>{spot.numReviews} Reviews · {spot.avgStarRating} Average Stars</p>)) : (<p>- Average Stars</p>)}
                             </div>
-                            {/* {spot.reviews.map()} */}
                     </div>
                     </div>
                     <p className="spot-desc">Paragraph:</p>
