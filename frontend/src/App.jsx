@@ -7,6 +7,7 @@ import Navigation from './components/Navigation/Navigation-bonus';
 import * as sessionActions from './store/session';
 import { Modal } from './context/Modal';
 import Spots from './components/SpotsIndex';
+import SpotShow from './components/SpotShow';
 // import SpotData from
 
 function Layout() {
@@ -22,27 +23,23 @@ function Layout() {
   return (
     <>
       <Modal/>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Outlet />}
+      <Navigation isLoaded={isLoaded}/>
+      {isLoaded && <Outlet/>}
     </>
   );
 }
 
 const router = createBrowserRouter([
   {
-    element: <Layout />,
+    element: <Layout/>,
     children: [
       {
         path: '/',
-        element:(
-        <>
-        <Spots/>
-        </>
-  )
+        element:<Spots/>
       },
       {
-        path: '/spots',
-        element: <Spots/>
+        path: '/spots/:spotId',
+        element: <SpotShow/>
       },
 
       // {
