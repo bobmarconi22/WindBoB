@@ -25,7 +25,7 @@ function NewSpotForm(){
           });
         }, [dispatch]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const newSpot ={
             country: country,
@@ -34,6 +34,8 @@ function NewSpotForm(){
             state: state,
             description: description,
             name: name,
+            lat: 1,
+            lng: 1,
             price: parseInt(price),
             previewImageUrl: imageUrls.previewImageUrl,
             image2Url: imageUrls.image2Url,
@@ -42,11 +44,19 @@ function NewSpotForm(){
             image5Url: imageUrls.image5Url
         }
         setErrors({});
-        return dispatch(createSpot(newSpot)).catch(async (res) => {
-            // console.log(res)
+
+        // console.log('hello')
+        const data = await dispatch(createSpot(newSpot))
+
+        // console.log('===============>', data)
+        return await dispatch(createSpot(newSpot)).then(
+
+            async (res) => {
+            console.log(res)
             if (res.ok) {
                 // console.log(res)
-                navigate('/');
+                const data = await res.json()
+                navigate(`/spots/${data.id}`);
             } else {
                 return res.json().then(data => {
                     if (data?.errors) {
@@ -54,6 +64,7 @@ function NewSpotForm(){
                     }
                 });
             }
+
         })
     }
 

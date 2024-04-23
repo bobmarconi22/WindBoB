@@ -14,14 +14,9 @@ export const loadSpotById = (spot) => ({
     payload: spot
 })
 
-export const addSpot = (spot, previewImageUrl, image2Url, image3Url, image4Url, image5Url) => ({
+export const addSpot = (spot) => ({
     type: ADD_SPOT,
-    payload: spot,
-    previewImageUrl,
-    image2Url,
-    image3Url,
-    image4Url,
-    image5Url
+    payload: spot
 })
 
 
@@ -40,30 +35,24 @@ export const fetchSpots = (spotId) => async (dispatch) => {
 }
 
 export const createSpot = (spot) => async (dispatch) => {
-        const { country, address, city, state, description, name, price, previewImageUrl, image2Url, image3Url, image4Url, image5Url } = spot;
+    try{
+        console.log('hello2')
         const res = await csrfFetch('/api/spots', {
             method: 'POST',
-            body: JSON.stringify({
-                country,
-                address,
-                city,
-                state,
-                description,
-                name,
-                price,
-                previewImageUrl,
-                image2Url,
-                image3Url,
-                image4Url,
-                image5Url,
-                lat: 1,
-                lng: 1
-            })
+            body: JSON.stringify(spot)
         });
-        const newSpot = await res.json();
-        dispatch(addSpot(newSpot, previewImageUrl, image2Url, image3Url, image4Url, image5Url))
-        return res;
+        console.log('hello3')
+        // console.log('==================================>',newSpot)
+        if(res.ok){
+            const newSpot = await res.json();
+            dispatch(addSpot(newSpot))
+        }
+            return res;
+    }catch (e){
+    console.log('hello from catch')
+        return e
   };
+  }
 
 
 const spotsReducer = (state = {}, action) => {
@@ -84,28 +73,28 @@ const spotsReducer = (state = {}, action) => {
             const newState = {...state};
                 newState[action.payload.id] = action.payload
                 newState[action.payload.id].SpotImages = [{spotId: action.payload.id, url: action.previewImageUrl, preview: true}]
-                if (action.image2Url) {
+                if (action.payload.image2Url) {
                     newState[action.payload.id].SpotImages = [
                         ...newState[action.payload.id].SpotImages,
-                        { spotId: action.payload.id, url: action.image2Url, preview: false }
+                        { spotId: action.payload.id, url: action.payload.image2Url, preview: false }
                     ];
                 }
-                if (action.image3Url) {
+                if (action.payload.image3Url) {
                     newState[action.payload.id].SpotImages = [
                         ...newState[action.payload.id].SpotImages,
-                        { spotId: action.payload.id, url: action.image3Url, preview: false }
+                        { spotId: action.payload.id, url: action.payload.image3Url, preview: false }
                     ];
                 }
-                if (action.image4Url) {
+                if (action.payload.image4Url) {
                     newState[action.payload.id].SpotImages = [
                         ...newState[action.payload.id].SpotImages,
-                        { spotId: action.payload.id, url: action.image4Url, preview: false }
+                        { spotId: action.payload.id, url: action.payload.image4Url, preview: false }
                     ];
                 }
-                if (action.image5Url) {
+                if (action.payload.image5Url) {
                     newState[action.payload.id].SpotImages = [
                         ...newState[action.payload.id].SpotImages,
-                        { spotId: action.payload.id, url: action.image5Url, preview: false }
+                        { spotId: action.payload.id, url: action.payload.image5Url, preview: false }
                     ];
                 }
             return newState
