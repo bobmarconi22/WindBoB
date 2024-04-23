@@ -1,7 +1,8 @@
+import { csrfFetch } from "./csrf"
 
 const LOAD_SPOTS = "LOAD_SPOTS"
 const LOAD_SPOT_BY_ID = "LOAD_SPOT_BY_ID"
-const LOAD_REVIEWS = "LOAD_REVIEWS"
+const ADD_SPOT = "ADD_SPOT"
 
 export const loadSpots = (spots) => ({
     type: LOAD_SPOTS,
@@ -13,10 +14,16 @@ export const loadSpotById = (spot) => ({
     payload: spot
 })
 
-export const loadReviews = (reviews) => ({
-    type: LOAD_REVIEWS,
-    payload: reviews
+export const addSpot = (spot, previewImageUrl, image2Url, image3Url, image4Url, image5Url) => ({
+    type: ADD_SPOT,
+    payload: spot,
+    previewImageUrl,
+    image2Url,
+    image3Url,
+    image4Url,
+    image5Url
 })
+
 
 export const fetchSpots = (spotId) => async (dispatch) => {
     if(!spotId){
@@ -32,11 +39,31 @@ export const fetchSpots = (spotId) => async (dispatch) => {
     }
 }
 
-export const fetchReviews = (spotId) => async (dispatch) => {
-    const res = await fetch(`/api/spots/${spotId}/reviews`);
-    const reviews = await res.json();
-    dispatch(loadReviews(reviews))
-}
+export const createSpot = (spot) => async (dispatch) => {
+        const { country, address, city, state, description, name, price, previewImageUrl, image2Url, image3Url, image4Url, image5Url } = spot;
+        const res = await csrfFetch('/api/spots', {
+            method: 'POST',
+            body: JSON.stringify({
+                country,
+                address,
+                city,
+                state,
+                description,
+                name,
+                price,
+                previewImageUrl,
+                image2Url,
+                image3Url,
+                image4Url,
+                image5Url,
+                lat: 1,
+                lng: 1
+            })
+        });
+        const newSpot = await res.json();
+        dispatch(addSpot(newSpot, previewImageUrl, image2Url, image3Url, image4Url, image5Url))
+        return res;
+  };
 
 
 const spotsReducer = (state = {}, action) => {
@@ -52,6 +79,36 @@ const spotsReducer = (state = {}, action) => {
             const newState = {...state};
                 newState.spotById = action.payload
             return newState;
+        }
+        case ADD_SPOT: {
+            const newState = {...state};
+                newState[action.payload.id] = action.payload
+                newState[action.payload.id].SpotImages = [{spotId: action.payload.id, url: action.previewImageUrl, preview: true}]
+                if (action.image2Url) {
+                    newState[action.payload.id].SpotImages = [
+                        ...newState[action.payload.id].SpotImages,
+                        { spotId: action.payload.id, url: action.image2Url, preview: false }
+                    ];
+                }
+                if (action.image3Url) {
+                    newState[action.payload.id].SpotImages = [
+                        ...newState[action.payload.id].SpotImages,
+                        { spotId: action.payload.id, url: action.image3Url, preview: false }
+                    ];
+                }
+                if (action.image4Url) {
+                    newState[action.payload.id].SpotImages = [
+                        ...newState[action.payload.id].SpotImages,
+                        { spotId: action.payload.id, url: action.image4Url, preview: false }
+                    ];
+                }
+                if (action.image5Url) {
+                    newState[action.payload.id].SpotImages = [
+                        ...newState[action.payload.id].SpotImages,
+                        { spotId: action.payload.id, url: action.image5Url, preview: false }
+                    ];
+                }
+            return newState
         }
         default:
         return state

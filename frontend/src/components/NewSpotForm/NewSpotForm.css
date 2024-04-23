@@ -1,0 +1,81 @@
+h1{
+    font-size: 50px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    margin: 0;
+    width: 99%;
+    margin: 0 auto;
+}
+
+
+.form-title{
+    color: rgb(22,65,73);
+    font-size: 38px;
+    margin: 0;
+    padding: 0;
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+.subtitle{
+    color: rgb(22,65,73);
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    padding-left: 40px;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgb(22,65,73);
+    width: 99%;
+    font-style: italic;
+}
+
+.form-label{
+    padding: 8px;
+    padding-bottom: 25px;
+    font-size: 20px;
+}
+
+.form-input{
+    border: none;
+    border-bottom: 2px solid rgb(22,65,73,0.45);
+    margin-left: 10px;
+    margin-bottom: 50px;
+    line-height: 25px;
+    width: 100%;
+    color: rgb(22,65,73);
+}
+
+.form-input:hover{
+    border-bottom: 2px solid rgb(111, 223, 197);
+}
+
+.form-input:focus{
+    border: none;
+    outline: none;
+    border-bottom: 2px solid rgb(111, 223, 197);
+}
+
+.textarea{
+    border-bottom: 2px solid rgb(22,65,73,0.45);
+    padding-top: 25px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
+
+#create-spot-btn{
+    height: 90px;
+}
+
+.form-errors{
+    color: red;
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+    font-size: 10px;
+    font-style: italic;
+}

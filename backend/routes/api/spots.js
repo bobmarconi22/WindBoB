@@ -29,6 +29,9 @@ async function findAvgStars(...spots) {
     const reviews = await Review.findAll({
       where: { spotId: spot.id },
     });
+    if(!reviews.length){
+      spot.dataValues.avgRating = undefined
+    }
     const totalStars = reviews.reduce((sum, review) => sum + review.stars, 0);
     if (totalStars / reviews.length) {
       spot.dataValues.avgRating = totalStars / reviews.length;
@@ -252,7 +255,7 @@ router.get("/:spotId", async (req, res, next) => {
 
 router.post("/", requireAuth, async (req, res, next) => {
   const userId = req.user.id;
-  const { address, city, state, country, lat, lng, name, description, price } =
+  const { address, city, state, country, lat, lng, name, description, price, previewImageUrl } =
     req.body;
 
   const err = new Error();
@@ -281,26 +284,35 @@ router.post("/", requireAuth, async (req, res, next) => {
     err.errors.lng = "Longitude must be within -180 and 180";
     err.status = 400;
   };
-  if (!name || typeof name !== "string" || name.length > 50) {
+  if (!name || typeof name !== "string"){
+    err.errors.name = "Name is required";
+    err.status = 400;
+  };
+  if (name.length > 50) {
     err.errors.name = "Name must be less than 50 characters";
     err.status = 400;
   };
   if (
     !description ||
     typeof description !== "string" ||
-    description.length === 0
+    description.length < 30
   ) {
-    err.errors.description = "Description is required";
+    err.errors.description = "Description must be at least 30 characters";
     err.status = 400;
   };
   if (!price || typeof price !== "number" || price < 0) {
     err.errors.price = "Price per day must be a positive number";
     err.status = 400;
   };
+  if(!previewImageUrl || typeof previewImageUrl !== "string" ){
+    err.errors.prevImg = "At least one image is required"
+    err.status = 400
+  };
   if (err.status === 400) {
     err.message = "Bad Request";
     throw err;
   };
+
 
   let spot = await Spot.create({
     address: address,
@@ -365,7 +377,7 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
 
 router.put("/:spotId", requireAuth, async (req, res, next) => {
   const spotId = parseInt(req.params.spotId);
-  const { address, city, state, country, lat, lng, name, description, price } =
+  const { address, city, state, country, lat, lng, name, description, price, previewImageUrl } =
     req.body;
 
   if (isNaN(spotId) || spotId < 1) {
