@@ -49,18 +49,15 @@ function NewSpotForm(){
         const data = await dispatch(createSpot(newSpot))
 
         // console.log('===============>', data)
-        return await dispatch(createSpot(newSpot)).then(
-
-            async (res) => {
+        return await dispatch(createSpot(newSpot)).then(async (res) => {
             console.log(res)
-            if (res.ok) {
+            if (res.id) {
                 // console.log(res)
-                const data = await res.json()
-                navigate(`/spots/${data.id}`);
+                navigate(`/spots/${res.id}`);
             } else {
-                return res.json().then(data => {
-                    if (data?.errors) {
-                        setErrors(data.errors);
+                return (res => {
+                    if (res?.errors) {
+                        setErrors(res.errors);
                     }
                 });
             }
