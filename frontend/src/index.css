@@ -108,30 +108,48 @@ button:disabled:hover{
     position: relative;
     align-items: center;
     margin: 20px;
-    box-shadow: 4px 3px 8px rgb(22,65,73,0.25);
+    box-shadow: 2px 2px 7px rgb(22,65,73,0.85);
 }
 
 .spot-tile:hover{
-    box-shadow: 4px 3px 8px rgb(111,223,197,0.5);
+    box-shadow:2px 2px 9px rgb(22,65,73);
+    border: 1px solid rgb(111,223,197);
 }
 
 .spot-name{
     font-weight: bold;
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     right: 0;
-    padding-bottom: 5px;
-    margin-bottom: 58px;
-    border-bottom: 2px solid rgb(111,223,197);
+    padding-bottom: 4px;
+    margin: 0 auto;
+    margin-top: 30px;
+    font-size: 18px;
+    background-color: rgb(111,223,197);
+    border: 1px solid rgb(111,223,197);
+    border-radius: 12px;
+    width: 75%;
+    opacity: 0;
+    transition: opacity 0.4s;
 }
+
+.spot-tile:hover .spot-name{
+    visibility: visible;
+    opacity: 1;
+}
+.tooltip{
+    margin-top: 190px;
+    border-bottom: 2px solid rgb(111,223,197)
+}
+
 
 .spot-price{
     font-size: 12px;
     position: absolute;
     bottom: 0;
-    right: 0;
-    margin-right: 8px;
+    left: 0;
+    margin-left: 8px;
 }
 
 .spot-rating{
@@ -157,7 +175,6 @@ button:disabled:hover{
     font-size: 14px;
     margin-right: 5px;
     margin-left: 2px;
-    border-bottom: 1px solid rgb(22,65,73);
 }
 
 .spot-location{

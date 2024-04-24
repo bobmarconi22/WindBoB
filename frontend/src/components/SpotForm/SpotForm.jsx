@@ -1,33 +1,47 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import './NewSpotForm.css'
-import { useNavigate } from "react-router-dom"
+import './SpotForm.css'
+import { useNavigate, useParams } from "react-router-dom"
 import { fetchSpots, createSpot } from "../../store/spots"
 
-function NewSpotForm(){
-    const [address, setAddress]= useState('')
-    const [city, setCity]= useState('')
-    const [state, setState]= useState('')
-    const [country, setCountry]= useState('')
-    const [name, setName]= useState('')
-    const [description, setDescription]= useState('')
-    const [price, setPrice]= useState(0)
-    const [imageUrls, setImageUrls]= useState({previewImageUrl: '', image2Url: '', image3Url: '', image4Url: '', image5Url: '',})
-    const [isLoaded, setIsLoaded] = useState(false)
-    const [errors, setErrors] = useState({})
-
+function SpotForm(){
+    const [address, setAddress]= useState('');
+    const [city, setCity]= useState('');
+    const [state, setState]= useState('');
+    const [country, setCountry]= useState('');
+    const [name, setName]= useState('');
+    const [description, setDescription]= useState('');
+    const [price, setPrice]= useState(0);
+    const [imageUrls, setImageUrls]= useState({previewImageUrl: '', image2Url: '', image3Url: '', image4Url: '', image5Url: '',});
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [formType, setFormType] = useState('')
+    const { spotId } = useParams();
+    const spot = useSelector((state) => state.spots.spotById);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
+        dispatch(fetchSpots(spotId)).then(() => {
+        });
+        if(!spotId){
+            setFormType('create')
+        } if (spotId){
+            setFormType('update')
+        }
         dispatch(fetchSpots()).then(() => {
             setIsLoaded(true)
           });
-        }, [dispatch]);
+        }, [dispatch, spotId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newSpot ={
+        const imageArr = [{url: imageUrls.previewImageUrl, preview: true}]
+        if(imageUrls.image2Url) imageArr.push({url: imageUrls.image2Url, preview: false});
+        if(imageUrls.image3Url) imageArr.push({url: imageUrls.image3Url, preview: false});
+        if(imageUrls.image4Url) imageArr.push({url: imageUrls.image4Url, preview: false});
+        if(imageUrls.image5Url) imageArr.push({url: imageUrls.image5Url, preview: false});
+        const spot ={
             country: country,
             address: address,
             city: city,
@@ -37,33 +51,19 @@ function NewSpotForm(){
             lat: 1,
             lng: 1,
             price: parseInt(price),
-            previewImageUrl: imageUrls.previewImageUrl,
-            image2Url: imageUrls.image2Url,
-            image3Url: imageUrls.image3Url,
-            image4Url: imageUrls.image4Url,
-            image5Url: imageUrls.image5Url
+            SpotImages: imageArr,
         }
         setErrors({});
 
-        // console.log('hello')
-        const data = await dispatch(createSpot(newSpot))
+        const data = await dispatch(createSpot(spot))
+        if(data.errors){
+            setErrors(data.errors)
+        } else{
+            navigate(`/spots/${data.id}`)
+        }
+        console.log(data)
+        }
 
-        // console.log('===============>', data)
-        return await dispatch(createSpot(newSpot)).then(async (res) => {
-            console.log(res)
-            if (res.id) {
-                // console.log(res)
-                navigate(`/spots/${res.id}`);
-            } else {
-                return (res => {
-                    if (res?.errors) {
-                        setErrors(res.errors);
-                    }
-                });
-            }
-
-        })
-    }
 
 return (
     <>
@@ -71,7 +71,7 @@ return (
       {isLoaded && <form onSubmit={handleSubmit}>
         <div className="form-section">
             <h2 className="form-title">Where&apos;s your place located?</h2>
-            <p className="subtitle">Guests will only get your exact address once they booked a reservation.</p>
+            <p className="subtitle">Guests will only get your exact address once they booked a reservation.</p>{console.log(formType)}
                 <label className="form-label" htmlFor="country">Country</label> <p className="form-errors">{errors.country}</p>
                     <input className="form-input" id="country" type="text" value={country} onChange={(e) => setCountry(e.target.value)} />
                 <label className="form-label" htmlFor="address">Street Address</label><p className="form-errors">{errors.address}</p>
@@ -102,7 +102,7 @@ return (
         <div className="form-section">
             <h2 className="form-title">Liven up your spot with photos</h2>
             <p className="subtitle">Submit a link to at least one photo to publish your spot.</p>
-                <label className="form-label" htmlFor="prev-img">Preview Image</label><p className="form-errors">{errors.prevImg}</p>
+                <label className="form-label" htmlFor="prev-img">Preview Image</label><p className="form-errors">{errors.SpotImages}</p>
                     <input className="form-input" id="prev-img" type="text" placeholder="Preview Image URL" value={imageUrls.previewImageUrl} onChange={(e) => setImageUrls(prevState => ({ ...prevState, previewImageUrl: e.target.value }))}/>
                 <label className="form-label" htmlFor="img2">Image</label>
                     <input className="form-input" id="img2" type="text" placeholder="Image URL" value={imageUrls.image2Url} onChange={(e) => setImageUrls(prevState => ({ ...prevState, image2Url: e.target.value }))}/>
@@ -118,7 +118,7 @@ return (
     </>
 )
 }
-export default NewSpotForm
+export default SpotForm
 
 // ownerId: 1,
 // address: "123 Disney Lane",

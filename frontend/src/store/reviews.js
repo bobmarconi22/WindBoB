@@ -18,10 +18,12 @@ const reviewsReducer = (state = {}, action) => {
     switch (action.type){
         case LOAD_REVIEWS: {
             const newState = {...state, reviews: {}};
-            action.payload.Reviews.forEach((review) => {
-                newState.reviews[review.id] = review
+            if (action.payload && action.payload.Reviews) {
+                action.payload.Reviews.forEach((review) => {
+                    newState.reviews[review.id] = review;
                 });
-            return newState
+            }
+            return newState;
         }
         default:
         return state
