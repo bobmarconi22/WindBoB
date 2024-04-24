@@ -305,10 +305,7 @@ router.post("/", requireAuth, async (req, res, next) => {
     err.status = 400;
     console.log('======================================>',SpotImages[0] === '')
   };
-  if(SpotImages[0].url === ''){
-    err.errors.SpotImages = "At least one image is required"
-    err.status = 400
-  };
+
   if (err.status === 400) {
     err.message = "Bad Request";
     throw err;
@@ -329,16 +326,17 @@ router.post("/", requireAuth, async (req, res, next) => {
     description: description,
     price: price,
   });
+  let spotImgs = []
 
   for (let i = 0; i > SpotImages.length; i++){
-    await SpotImages.create({
+    const img = await SpotImages.create({
       spotId: spot.id,
       url: SpotImages[i].url,
       previewImage: i === 0
   })
-
+    spotImgs.push(img)
   }
-
+  spot.dataValues.SpotImages = spotImgs
   spot.dataValues.lat = parseFloat(spot.lat);
   spot.dataValues.lng = parseFloat(spot.lng);
   spot.dataValues.price = parseFloat(spot.price);
@@ -383,6 +381,12 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
     url: newImg.url,
     preview: newImg.preview,
   };
+
+  if (payload.preview) {
+    await spot.update({
+      previewImage: payload.url,
+    });
+  }
 
   res.json(payload);
 });

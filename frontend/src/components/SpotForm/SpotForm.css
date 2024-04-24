@@ -6,8 +6,8 @@ form{
     display: flex;
     flex-direction: column;
     text-align: start;
-    margin: 0;
-    width: 99%;
+    justify-content: center;
+    width: 90%;
     margin: 0 auto;
 }
 

@@ -15,9 +15,11 @@ export const loadSpotById = (spot) => ({
   payload: spot,
 });
 
-export const addSpot = (spot) => ({
+export const addSpot = (spot, spotImgs, prevImg) => ({
   type: ADD_SPOT,
   payload: spot,
+  imgPayload: spotImgs,
+  prevImg: prevImg
 });
 
 export const editSpot = (spot) => ({
@@ -39,20 +41,26 @@ export const fetchSpots = (spotId) => async (dispatch) => {
   }
 };
 
-export const createSpot = (spot) => async (dispatch) => {
-  console.log("hello2");
-  try {
+export const createSpot = (spot, imgUrls, prevImg) => async (dispatch) => {
     const res = await csrfFetch("/api/spots", {
       method: "POST",
       body: JSON.stringify(spot),
     });
-    const newSpot = res.json();
-    dispatch(addSpot(newSpot));
+    const newSpot = await res.json();
+    let count = 1
+    const spotImgs = await Promise.all(Object.values(imgUrls).map(async(spotUrl) => {
+      const spot = {url: spotUrl, preview: false}
+      if (count === 1) spot.preview = true
+      count++
+      const res = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+        method: 'POST',
+        body: JSON.stringify(spot)
+      });
+      return res.json();
+    }))
+
+    dispatch(addSpot(newSpot, spotImgs, prevImg));
     return newSpot;
-  } catch (e) {
-    const formattedErr = await e.json();
-    return formattedErr;
-  }
 };
 
 export const updateSpot = (spot) => async (dispatch) => {
@@ -86,9 +94,9 @@ const spotsReducer = (state = {}, action) => {
       return newState;
     }
     case ADD_SPOT: {
-      const newState = { ...state };
-      newState[action.payload.id] = action.payload;
-      return newState;
+        const newState = {...state, [action.payload.id]: action.payload}
+        newState[action.payload.id].previewImage = action.imgPayload[0]
+        return newState
     }
     case EDIT_SPOT: {
         const newState = { ...state };

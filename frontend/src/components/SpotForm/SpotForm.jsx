@@ -5,42 +5,73 @@ import { useNavigate, useParams } from "react-router-dom"
 import { fetchSpots, createSpot } from "../../store/spots"
 
 function SpotForm(){
-    const [address, setAddress]= useState('');
-    const [city, setCity]= useState('');
-    const [state, setState]= useState('');
-    const [country, setCountry]= useState('');
-    const [name, setName]= useState('');
-    const [description, setDescription]= useState('');
-    const [price, setPrice]= useState(0);
-    const [imageUrls, setImageUrls]= useState({previewImageUrl: '', image2Url: '', image3Url: '', image4Url: '', image5Url: '',});
+    const { spotId } = useParams();
+    const spot = useSelector((state) => state.spots.spotById);
+    const [address, setAddress]= useState(spot ? spot.address : '');
+    const [city, setCity]= useState(spot?.city || '');
+    const [state, setState]= useState(spot?.state || '');
+    const [country, setCountry]= useState(spot?.country || '');
+    const [name, setName]= useState(spot?.name || '');
+    const [description, setDescription]= useState(spot?.description || '');
+    const [price, setPrice]= useState(spot?.price || 0);
+    const [imageUrls, setImageUrls]= useState({previewImageUrl: ''});
     const [isLoaded, setIsLoaded] = useState(false);
     const [errors, setErrors] = useState({});
     const [formType, setFormType] = useState('')
-    const { spotId } = useParams();
-    const spot = useSelector((state) => state.spots.spotById);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [setVals, setSetVals] = useState(false);
+
+    // const setFormValues = () => {
+    //     if (spot) {
+    //         setAddress(spot.address);
+    //         setCity(spot.city);
+    //         setState(spot.state);
+    //         setCountry(spot.country);
+    //         setName(spot.name);
+    //         setDescription(spot.description);
+    //         setPrice(spot.price);
+    //         setAddress(spot.address);
+    //         setSetVals(true);
+    //     }
+    // };
 
     useEffect(() => {
         dispatch(fetchSpots(spotId)).then(() => {
         });
-        if(!spotId){
-            setFormType('create')
-        } if (spotId){
-            setFormType('update')
+        if (!spotId) {
+            setFormType('create');
+            setSetVals(true);
+        } else if (spotId) {
+            setFormType('update');
+            setSetVals(true)
         }
         dispatch(fetchSpots()).then(() => {
-            setIsLoaded(true)
-          });
-        }, [dispatch, spotId]);
+            setIsLoaded(true);
+        });
+
+    }, [dispatch, spotId]);
+
+          function setErrorsFunc() {
+            setErrors({})
+            const errObj = {};
+            if(name === '') errObj.name = 'Name is required'
+            if(city === '') errObj.city = 'City is required'
+            if(state === '') errObj.state = 'State is required'
+            if(country === '') errObj.country = 'country is required'
+            if(address === '') errObj.address = 'Street address is required'
+            if(description.length < 30) errObj.description = 'Description must be at least 30 characters'
+            if(price <= 0) errObj.price = 'Price per day must be a positive number'
+            if(imageUrls.previewImageUrl === '') errObj.spotImages = 'At least one image is required'
+            setErrors(errObj)
+          }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const imageArr = [{url: imageUrls.previewImageUrl, preview: true}]
-        if(imageUrls.image2Url) imageArr.push({url: imageUrls.image2Url, preview: false});
-        if(imageUrls.image3Url) imageArr.push({url: imageUrls.image3Url, preview: false});
-        if(imageUrls.image4Url) imageArr.push({url: imageUrls.image4Url, preview: false});
-        if(imageUrls.image5Url) imageArr.push({url: imageUrls.image5Url, preview: false});
+
+        setIsSubmitted(true)
         const spot ={
             country: country,
             address: address,
@@ -51,58 +82,56 @@ function SpotForm(){
             lat: 1,
             lng: 1,
             price: parseInt(price),
-            SpotImages: imageArr,
+            SpotImages: imageUrls,
         }
-        setErrors({});
-
-        const data = await dispatch(createSpot(spot))
-        if(data.errors){
-            setErrors(data.errors)
-        } else{
+        setErrorsFunc()
+        console.log("=====================>", !Object.keys(errors).length)
+        if(name !== '' && city !== '' && state !== '' && country !== '' && address !== '' ){
+        const data = await dispatch(createSpot(spot, imageUrls, imageUrls.previewImageUrl))
             navigate(`/spots/${data.id}`)
-        }
-        console.log(data)
+    }
+
         }
 
 
 return (
     <>
-      <h1>Create a New Spot</h1>
-      {isLoaded && <form onSubmit={handleSubmit}>
+      {spotId ? <h1>Update Spot</h1> : <h1>Create a New Spot</h1>}
+      {isLoaded && setVals && <form onSubmit={(e) => handleSubmit(e)}>
         <div className="form-section">
             <h2 className="form-title">Where&apos;s your place located?</h2>
             <p className="subtitle">Guests will only get your exact address once they booked a reservation.</p>{console.log(formType)}
-                <label className="form-label" htmlFor="country">Country</label> <p className="form-errors">{errors.country}</p>
+                <label className="form-label" htmlFor="country">Country</label> <p className="form-errors">{isSubmitted && errors.country}</p>
                     <input className="form-input" id="country" type="text" value={country} onChange={(e) => setCountry(e.target.value)} />
-                <label className="form-label" htmlFor="address">Street Address</label><p className="form-errors">{errors.address}</p>
+                <label className="form-label" htmlFor="address">Street Address</label><p className="form-errors">{isSubmitted && errors.address}</p>
                     <input className="form-input" id="address" type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-                <label className="form-label" htmlFor="city">City</label><p className="form-errors">{errors.city}</p>
+                <label className="form-label" htmlFor="city">City</label><p className="form-errors">{isSubmitted && errors.city}</p>
                     <input className="form-input" id="city" type="text" value={city} onChange={(e) => setCity(e.target.value)} />
-                <label className="form-label" htmlFor="state">State</label><p className="form-errors">{errors.state}</p>
+                <label className="form-label" htmlFor="state">State</label><p className="form-errors">{isSubmitted && errors.state}</p>
                     <input className="form-input" id="state" type="text" value={state} onChange={(e) => setState(e.target.value)} />
         </div>
         <div className="form-section">
             <h2 className="form-title">Describe your place to guests</h2>
             <p className="subtitle">Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
-            <p className="form-errors">{errors.description}</p>
+            <p className="form-errors">{isSubmitted && errors.description}</p>
                 <input id="description" className="form-input" type="textarea" placeholder="Please write at least 30 characters" value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
         <div className="form-section">
             <h2 className="form-title">Create a title for your spot</h2>
             <p className="subtitle">Catch guests&apos; attention with a spot title that highlights what makes your place special.</p>
-                <label className="form-label" htmlFor="name">Name</label><p className="form-errors">{errors.name}</p>
+                <label className="form-label" htmlFor="name">Name</label><p className="form-errors">{isSubmitted && errors.name}</p>
                     <input className="form-input" id="name" type="text" placeholder="Name of your spot" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div className="form-section">
             <h2 className="form-title">Set a base price for your spot</h2>
             <p className="subtitle">Competitive pricing can help your listing stand out and rank higher in search results.</p>
-            <p className="form-errors">{errors.price}</p>
+            <p className="form-errors">{isSubmitted && errors.price}</p>
                 <input className="form-input" id="number" type="number" placeholder="Price per night (USD)" value={price} onChange={(e) => setPrice(e.target.value)} />
         </div>
         <div className="form-section">
             <h2 className="form-title">Liven up your spot with photos</h2>
             <p className="subtitle">Submit a link to at least one photo to publish your spot.</p>
-                <label className="form-label" htmlFor="prev-img">Preview Image</label><p className="form-errors">{errors.SpotImages}</p>
+                <label className="form-label" htmlFor="prev-img">Preview Image</label><p className="form-errors">{isSubmitted && errors.spotImages}</p>
                     <input className="form-input" id="prev-img" type="text" placeholder="Preview Image URL" value={imageUrls.previewImageUrl} onChange={(e) => setImageUrls(prevState => ({ ...prevState, previewImageUrl: e.target.value }))}/>
                 <label className="form-label" htmlFor="img2">Image</label>
                     <input className="form-input" id="img2" type="text" placeholder="Image URL" value={imageUrls.image2Url} onChange={(e) => setImageUrls(prevState => ({ ...prevState, image2Url: e.target.value }))}/>

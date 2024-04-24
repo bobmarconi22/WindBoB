@@ -51,9 +51,9 @@ function Spots() {
     return (
         <div id="spots">
             {isLoaded  && Object.values(spots).map((spot) => (
-                spot.id && !spot.Owner && <NavLink className="spot-tile" key={spot.id} to={`/spots/${spot.id}`}>
+                !spot.Owner && <NavLink className="spot-tile" key={spot.id} to={`/spots/${spot.id}`}>
                     <div className="tooltip">
-                        <img className="preview-img" key={spot.id} src={spot.previewImage} alt={`${spot.name} Preview Image`} />
+                        <img className="preview-img" key={spot.id} src={spot.previewImage} alt={`${spot.previewImage}`} />
                         <h2 key={spot.name} className="spot-name">{spot.name}</h2>
                     </div>
                     <div id="location-reviews"></div>

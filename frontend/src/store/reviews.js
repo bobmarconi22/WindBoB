@@ -14,6 +14,13 @@ export const fetchReviews = (spotId) => async (dispatch) => {
     return res
 }
 
+export const fetchReviewsCurrent = () => async (dispatch) => {
+    const res = await fetch(`/api/spots//reviews/current`);
+    const reviews = await res.json();
+    dispatch(loadReviews(reviews))
+    return res
+}
+
 const reviewsReducer = (state = {}, action) => {
     switch (action.type){
         case LOAD_REVIEWS: {

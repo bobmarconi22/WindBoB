@@ -6,15 +6,15 @@ import './Navigation.css';
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
-  const redirect = useNavigate()
+  const navigate = useNavigate()
   const createNewSpot = () => {
-    redirect('/spots/new')
+    navigate('/spots/new')
   }
 
   return (
     <>
     <div id='nav-spacer'></div>
-    <nav>
+    <nav style={{zIndex: 1001}}>
         <NavLink to="/"><img id='logo' src="/windbob.png" alt="windbob logo"/></NavLink>
         <button id='new-spot-btn' onClick={createNewSpot}>New Spot</button>
       {isLoaded && (<ProfileButton user={sessionUser} />)}
