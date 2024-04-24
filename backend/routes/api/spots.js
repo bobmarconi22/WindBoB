@@ -255,7 +255,7 @@ router.get("/:spotId", async (req, res, next) => {
 
 router.post("/", requireAuth, async (req, res, next) => {
   const userId = req.user.id;
-  const { address, city, state, country, lat, lng, name, description, price, previewImageUrl } =
+  const { address, city, state, country, lat, lng, name, description, price, SpotImages } =
     req.body;
 
   const err = new Error();
@@ -303,15 +303,18 @@ router.post("/", requireAuth, async (req, res, next) => {
   if (!price || typeof price !== "number" || price < 0) {
     err.errors.price = "Price per day must be a positive number";
     err.status = 400;
+    console.log('======================================>',SpotImages[0] === '')
   };
-  if(!previewImageUrl || typeof previewImageUrl !== "string" ){
-    err.errors.prevImg = "At least one image is required"
+  if(SpotImages[0].url === ''){
+    err.errors.SpotImages = "At least one image is required"
     err.status = 400
   };
   if (err.status === 400) {
     err.message = "Bad Request";
     throw err;
   };
+
+
 
 
   let spot = await Spot.create({
@@ -326,6 +329,15 @@ router.post("/", requireAuth, async (req, res, next) => {
     description: description,
     price: price,
   });
+
+  for (let i = 0; i > SpotImages.length; i++){
+    await SpotImages.create({
+      spotId: spot.id,
+      url: SpotImages[i].url,
+      previewImage: i === 0
+  })
+
+  }
 
   spot.dataValues.lat = parseFloat(spot.lat);
   spot.dataValues.lng = parseFloat(spot.lng);
