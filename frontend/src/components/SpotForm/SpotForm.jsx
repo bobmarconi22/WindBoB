@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import './SpotForm.css'
 import { useNavigate, useParams } from "react-router-dom"
 import { fetchSpots, createSpot, updateSpot } from "../../store/spots"
@@ -7,7 +7,6 @@ import { fetchSpots, createSpot, updateSpot } from "../../store/spots"
 
 function SpotForm() {
     const { spotId } = useParams();
-    const spot = useSelector((state) => state.spots.spotById);
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');

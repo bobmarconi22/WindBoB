@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpotsCurrent } from "../../store/spots";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import OpenModalButton from './OpenModalButton'
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 function ManageSpots() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -61,7 +63,7 @@ function ManageSpots() {
         <div className="spots">
             {isLoaded  && spots.Spots.length ?
             spots.Spots.map((spot) => (
-                    <div className="edit-spots">
+                    <div key={spot.id} className="edit-spots">
                     <NavLink className="spot-tile" key={spot.id} to={`/spots/${spot.id}`}>
                         <div className="tooltip">
                             <img className="preview-img" key={spot.id} src={spot.previewImage} alt={`${spot.previewImage}`} />
@@ -81,7 +83,7 @@ function ManageSpots() {
                     </NavLink>
                     <div className="edit-delete-btns">
                        <button className="edit-btn" onClick={() => editSpot(spot.id)}>Edit</button>
-                    <button className="delete-btn">Delete</button>
+                       <OpenModalButton modalComponent={<ConfirmDeleteModal spotId={spot.id}/>} className="delete-btn" style={{color: 'white', backgroundColor: 'red'}}  buttonText='Delete'/>
                     </div>
 
                     </div>

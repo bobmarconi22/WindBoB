@@ -20,7 +20,7 @@ nav{
     top: 0;
     width: 96%;
     background-color: white;
-    z-index: 999;
+    z-index: 10;
     padding-right: 15px;
     padding-top: 22px;
 }
@@ -60,13 +60,13 @@ button:active{
     background-color:rgb(111,223,197) ;
 }
 
-button:disabled:hover{
+button:disabled:hover, button:disabled{
     cursor: default;
     height: 30px;
-    background-color: rgb(22,65,73);
+    background-color: rgb(92, 92, 92);
     border: 1px solid rgb(22,65,73);
     border-radius: 5px;
-    color: mintcream;
+    color: rgb(22,65,73);
     box-shadow: 4px 3px 15px rgb(22,65,73,0.6);
 }
 
@@ -87,6 +87,11 @@ button:disabled:hover{
     justify-content: center;
     align-items: center;
     padding: 7px;
+}
+
+h1{
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 .spots{
@@ -416,17 +421,4 @@ button:disabled:hover{
     width: 25%;
     max-width: 350px;
     min-width: 300px;
-}
-
-.delete-btn{
-    color: white;
-    background-color: rgb(230, 0, 0);
-    border: 1px solid rgb(22,65,73);
-}
-
-.delete-btn:hover{
-    color: white;
-    background-color: red;
-    border: 1px solid rgb(22,65,73);
-
 }

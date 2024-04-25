@@ -88,6 +88,14 @@ export const updateSpot = (spot) => async (dispatch) => {
     return updatedSpot;
 };
 
+export const deleteSpot = (spotId) => async (dispatch) => {
+  await csrfFetch(`/api/spots/${spotId}`, {
+    method: "DELETE"
+  })
+    await dispatch(fetchSpots());
+  return
+};
+
 const spotsReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_SPOTS: {
@@ -105,8 +113,9 @@ const spotsReducer = (state = {}, action) => {
       return { ...state, ['current']: action.payload};
     }
     case ADD_SPOT: {
-        const newState = {...state, [action.payload.id]: action.payload}
-        newState[action.payload.id].previewImage = action.imgPayload[0]
+        const newState = {...state};
+        newState.allSpots[action.payload.id] = action.payload
+        newState.allSpots[action.payload.id].previewImage = action.prevImg
         return newState
     }
     case EDIT_SPOT: {

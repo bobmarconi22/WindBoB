@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { fetchSpots } from "../../store/spots"
 import { fetchReviews, fetchReviewsCurrent } from "../../store/reviews"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import ReviewFormModal from '../ReviewFormModal';
 import './SpotShow.css'
 import OpenModalButton from '../OpenModalButton'
@@ -58,7 +58,7 @@ function SpotShow() {
                             <div id="detail-reviews-header">{console.log(userReviews)}
                                 {spot.numReviews ? (spot.numReviews === 1 ? (<p>{spot.numReviews} Review · {spot.avgStarRating.toFixed(1)} Average Stars</p>) : (<p>{spot.numReviews} Reviews · {spot.avgStarRating} Average Stars</p>)) : (<p>-- Average Stars</p>)}
                             </div>
-                            {spot.ownerId !== currentUserId && <OpenModalButton modalComponent={<ReviewFormModal/>} id="new-review-btn"  buttonText='Post Your Review'/>}
+                            {currentUserId !== 0 && spot.ownerId !== currentUserId && <OpenModalButton modalComponent={<ReviewFormModal/>} id="new-review-btn"  buttonText='Post Your Review'/>}
                             <ul id="reviews-body">
                                 {Object.values(reviews).length ? Object.values(reviews).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).map((review, index) => (<li className="indiv-review" key={index}>
                                     <p className="rev-user-name">{review.User.firstName}</p>
