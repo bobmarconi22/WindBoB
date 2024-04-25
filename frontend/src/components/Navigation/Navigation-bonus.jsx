@@ -16,7 +16,7 @@ function Navigation({ isLoaded }) {
     <div id='nav-spacer'></div>
     <nav style={{zIndex: 1001}}>
         <NavLink to="/"><img id='logo' src="/windbob.png" alt="windbob logo"/></NavLink>
-        <button id='new-spot-btn' onClick={createNewSpot}>New Spot</button>
+        {sessionUser && <button id='new-spot-btn' onClick={createNewSpot}>New Spot</button>}
       {isLoaded && (<ProfileButton user={sessionUser} />)}
     </nav>
     </>

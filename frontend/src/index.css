@@ -169,12 +169,13 @@ h1{
 
 #star-icon{
     height: 20px;
-    line-height: 5px;
+    line-height: 19px;
     position: absolute;
     bottom: 0;
     right: 0;
-    margin-right: 30px;
+    margin-right: 35px;
     margin-bottom: 36px;
+    color: rgb(22,65,73)
 }
 
 .rating-nums{

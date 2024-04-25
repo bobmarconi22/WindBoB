@@ -115,7 +115,6 @@ const spotsReducer = (state = {}, action) => {
     case ADD_SPOT: {
         const newState = {...state};
         newState.allSpots[action.payload.id] = action.payload
-        newState.allSpots[action.payload.id].previewImage = action.prevImg
         return newState
     }
     case EDIT_SPOT: {

@@ -58,7 +58,7 @@ function Spots() {
                     </div>
                     <div id="location-reviews"></div>
                     <p key={spot.city} className="spot-location">{`${spot.city}, ${spot.state}`}</p>
-                    <img src="../public/star.png" alt="star-icon" id="star-icon" />
+                    <p id="star-icon" >&#9733;</p>
                     <p key={spot.rating} className="spot-rating"><b className="rating-nums" style={styleRatings(spot.avgRating)}>{`${spot.avgRating !== undefined ? (Number.isInteger(spot.avgRating) ? spot.avgRating.toFixed(1) : spot.avgRating) : 'New'}`}</b></p>
                     <p key={spot.price} className="spot-price"> <b style={{fontWeight: "bold"}}>{`$${spot.price}`}</b> <b style={{ fontSize: "9px"}}>/ night</b></p>
                 </NavLink>

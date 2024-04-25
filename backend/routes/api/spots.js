@@ -382,11 +382,14 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
     preview: newImg.preview,
   };
 
-  if (payload.preview) {
     await spot.update({
       previewImage: payload.url,
+      where: {
+        preview: true
+      }
     });
-  }
+    spot.save()
+
 
   res.json(payload);
 });

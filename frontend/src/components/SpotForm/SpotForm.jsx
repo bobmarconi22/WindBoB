@@ -23,42 +23,34 @@ function SpotForm() {
     const navigate = useNavigate();
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-    const setFormValues = (spot) => {
-        if(formType !== 'update'){
-            setAddress(spot.address);
-            setCity(spot.city);
-            setState(spot.state);
-            setCountry(spot.country);
-            setName(spot.name);
-            setDescription(spot.description);
-            setPrice(spot.price);
-            setIsLoaded(true);
-            setFormType('update');
-        } else {
-            setAddress('');
-            setCity('');
-            setState('');
-            setCountry('');
-            setName('');
-            setDescription('');
-            setPrice(0);
-            setIsLoaded(true);
-        }
-
-    };
 
     useEffect(() => {
         if (spotId) {
             dispatch(fetchSpots(spotId)).then((spot) => {
-                setFormValues(spot);
+                setAddress(spot.address);
+                setCity(spot.city);
+                setState(spot.state);
+                setCountry(spot.country);
+                setName(spot.name);
+                setDescription(spot.description);
+                setPrice(spot.price);
+                setFormType('update');
+                setIsLoaded(true);
             });
         } else {
             dispatch(fetchSpots()).then(() => {
+                setAddress('');
+                setCity('');
+                setState('');
+                setCountry('');
+                setName('');
+                setDescription('');
+                setPrice(0);
                 setFormType('create');
                 setIsLoaded(true);
             });
         }
-    }, [dispatch, spotId]);
+    }, [dispatch, spotId, formType]);
 
     function setErrorsFunc() {
         setErrors({});
