@@ -49,8 +49,8 @@ function Spots() {
     }
 
     return (
-        <div id="spots">
-            {isLoaded  && Object.values(spots).map((spot) => (
+        <div className="spots">
+            {isLoaded && Object.values(spots.allSpots).map((spot) => (
                 !spot.Owner && <NavLink className="spot-tile" key={spot.id} to={`/spots/${spot.id}`}>
                     <div className="tooltip">
                         <img className="preview-img" key={spot.id} src={spot.previewImage} alt={`${spot.previewImage}`} />
@@ -58,7 +58,7 @@ function Spots() {
                     </div>
                     <div id="location-reviews"></div>
                     <p key={spot.city} className="spot-location">{`${spot.city}, ${spot.state}`}</p>
-                    <img src="./public/star.png" alt="star-icon" id="star-icon" />
+                    <img src="../public/star.png" alt="star-icon" id="star-icon" />
                     <p key={spot.rating} className="spot-rating"><b className="rating-nums" style={styleRatings(spot.avgRating)}>{`${spot.avgRating !== undefined ? (Number.isInteger(spot.avgRating) ? spot.avgRating.toFixed(1) : spot.avgRating) : 'New'}`}</b></p>
                     <p key={spot.price} className="spot-price"> <b style={{fontWeight: "bold"}}>{`$${spot.price}`}</b> <b style={{ fontSize: "9px"}}>/ night</b></p>
                 </NavLink>

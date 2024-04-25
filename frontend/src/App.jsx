@@ -9,7 +9,7 @@ import { Modal } from './context/Modal';
 import Spots from './components/SpotsIndex';
 import SpotShow from './components/SpotShow';
 import SpotForm from './components/SpotForm'
-import ReviewForm from './components/ReviewFormPage';
+import ManageSpots from './components/ManageSpots';
 // import SpotData from
 
 function Layout() {
@@ -51,7 +51,10 @@ const router = createBrowserRouter([
         path: '/spots/:spotId/edit',
         element: <SpotForm/>
       },
-
+      {
+        path: '/spots/manage',
+        element: <ManageSpots/>
+      },
       // {
       //   path: '/login',
       //   element: <LoginFormPage />

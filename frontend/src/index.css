@@ -89,7 +89,7 @@ button:disabled:hover{
     padding: 7px;
 }
 
-#spots{
+.spots{
     display: flex;
     flex-shrink: inherit;
     flex-wrap: wrap;
@@ -399,4 +399,34 @@ button:disabled:hover{
 
 #new-review-btn{
     margin: 10px;
+}
+
+.edit-spots{
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-delete-btns{
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    justify-content: center;
+    margin: 0 auto;
+    gap: 5px;
+    width: 25%;
+    max-width: 350px;
+    min-width: 300px;
+}
+
+.delete-btn{
+    color: white;
+    background-color: rgb(230, 0, 0);
+    border: 1px solid rgb(22,65,73);
+}
+
+.delete-btn:hover{
+    color: white;
+    background-color: red;
+    border: 1px solid rgb(22,65,73);
+
 }

@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_SPOTS = "LOAD_SPOTS";
 const LOAD_SPOT_BY_ID = "LOAD_SPOT_BY_ID";
+const LOAD_SPOTS_CURRENT = "LOAD_SPOTS_CURRENT";
 const ADD_SPOT = "ADD_SPOT";
 const EDIT_SPOT = "EDIT_SPOT";
 
@@ -13,6 +14,11 @@ export const loadSpots = (spots) => ({
 export const loadSpotById = (spot) => ({
   type: LOAD_SPOT_BY_ID,
   payload: spot,
+});
+
+export const loadSpotsCurrent = (spots) => ({
+  type: LOAD_SPOTS_CURRENT,
+  payload: spots,
 });
 
 export const addSpot = (spot, spotImgs, prevImg) => ({
@@ -32,14 +38,21 @@ export const fetchSpots = (spotId) => async (dispatch) => {
     const res = await fetch("/api/spots");
     const spots = await res.json();
     dispatch(loadSpots(spots));
-    return res;
+    return spots;
   } else {
     const res = await fetch(`/api/spots/${spotId}`);
     const spot = await res.json();
     dispatch(loadSpotById(spot));
-    return res;
+    return spot;
   }
 };
+
+export const fetchSpotsCurrent = () => async (dispatch) => {
+    const res = await fetch("/api/spots/current");
+    const spots = await res.json();
+    dispatch(loadSpotsCurrent(spots));
+    return res;
+}
 
 export const createSpot = (spot, imgUrls, prevImg) => async (dispatch) => {
     const res = await csrfFetch("/api/spots", {
@@ -83,15 +96,17 @@ const spotsReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_SPOTS: {
       const newState = { ...state };
+      newState.allSpots = {}
       action.payload.Spots.forEach((spot) => {
-        newState[spot.id] = spot;
+        newState.allSpots[spot.id] = spot;
       });
       return newState;
     }
     case LOAD_SPOT_BY_ID: {
-      const newState = { ...state };
-      newState.spotById = action.payload;
-      return newState;
+      return { ...state, ['spotById']: action.payload};
+    }
+    case LOAD_SPOTS_CURRENT: {
+      return { ...state, ['current']: action.payload};
     }
     case ADD_SPOT: {
         const newState = {...state, [action.payload.id]: action.payload}
@@ -99,9 +114,7 @@ const spotsReducer = (state = {}, action) => {
         return newState
     }
     case EDIT_SPOT: {
-        const newState = { ...state };
-        newState[action.payload.id] = action.payload;
-        return newState;
+        return { ...state, [action.payload.id]: action.payload};
     }
     default:
       return state;
