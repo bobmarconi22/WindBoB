@@ -501,6 +501,14 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
 });
 
 router.get("/:spotId/reviews", async (req, res, next) => {
+  const spot = await Spot.findByPk(parseInt(req.params.spotId));
+
+  if (!spot) {
+    let err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
   const reviews = await Review.findAll({
     where: {
       spotId: parseInt(req.params.spotId),
@@ -516,14 +524,6 @@ router.get("/:spotId/reviews", async (req, res, next) => {
       },
     ],
   });
-
-  const spot = await Review.findByPk(parseInt(req.params.spotId));
-
-  if (!spot) {
-    let err = new Error("Spot couldn't be found");
-    err.status = 404;
-    throw err;
-  }
 
   res.json({ Reviews: reviews });
 });

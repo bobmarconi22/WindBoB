@@ -1,62 +1,61 @@
 import { useState } from 'react';
-import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import './ReviewForm.css';
+import { createReview } from '../../store/reviews';
 
-function ReviewFormModal() {
+function ReviewFormModal({spotId}) {
   const dispatch = useDispatch();
-  const [comment, setComment] = useState("");
-  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
+  const [stars, setStars] = useState(0);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
-    return dispatch(sessionActions.login({ comment, password }))
+    const payload = {
+      review,
+      stars
+    }
+    return dispatch(createReview(spotId, payload))
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.message === 'Invalid comments') {
-          setErrors({comment: 'The provided comments were invalid'});
+        if (data && data.message) {
+          setErrors({message: data.message});
         }
-      });
+      })
   };
-
-
-    const handleStarClick = (value) => {
-      setRating(value);
-    }
-
 
   return (
     <div>
       <h1>How was your stay?</h1>
+      <p className='form-errors' style={{paddingBottom: '30px', paddingLeft: '33px'}}>{errors && errors.message}</p>
       <form id='review-form' onSubmit={handleSubmit}>
           <input
             type="textarea"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
             required
             placeholder='Leave your review here...'
           />
-        <label class='rating-label'>
+        <label className='rating-label'>
         <div className="star-rating">
       {[1,2,3,4,5].map((value) => (
         <span
           key={value}
-          className={value <= rating ? 'star-filled' : 'star'}
-          onClick={() => handleStarClick(value)}
+          className={value <= stars ? 'star-filled' : 'star'}
+          onClick={() => setStars(value)}
         >
           &#9733;
         </span>
       ))}
     </div>
-    <p className='star-total'>{rating} <b style={{fontSize: '12px'}}>stars</b> </p>
+    <p className='star-total'>{stars} <b style={{fontSize: '12px'}}>stars</b> </p>
         </label>
-        <button className='submit-log-in' type='submit' disabled={comment.length < 10 || stars === 0} onClick={() => {
-          handleSubmit()
+        <button className='submit-log-in' id='review-btn' type='submit' disabled={review.length < 10 || stars === 0} onClick={(e) => {
+          handleSubmit(e)
           }}>Submit Your Review</button>
       </form>
     </div>

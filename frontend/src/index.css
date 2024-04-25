@@ -422,3 +422,15 @@ h1{
     max-width: 350px;
     min-width: 300px;
 }
+
+#review-delete-btn{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 15px;
+    margin-bottom: 12px;
+    width: 44px;
+    height: 22px;
+    font-size: 11px;
+    padding: 2px;
+}

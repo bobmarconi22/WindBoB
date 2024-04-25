@@ -83,7 +83,7 @@ function ManageSpots() {
                     </NavLink>
                     <div className="edit-delete-btns">
                        <button className="edit-btn" onClick={() => editSpot(spot.id)}>Edit</button>
-                       <OpenModalButton modalComponent={<ConfirmDeleteModal spotId={spot.id}/>} className="delete-btn" style={{color: 'white', backgroundColor: 'red'}}  buttonText='Delete'/>
+                       <OpenModalButton modalComponent={<ConfirmDeleteModal spotId={spot.id}/>} className="delete-btn" buttonText='Delete'/>
                     </div>
 
                     </div>

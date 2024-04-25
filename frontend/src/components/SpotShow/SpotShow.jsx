@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { fetchSpots } from "../../store/spots"
-import { fetchReviews, fetchReviewsCurrent } from "../../store/reviews"
+import { fetchReviews } from "../../store/reviews"
 import { useEffect, useState } from "react"
-import ReviewFormModal from '../ReviewFormModal';
+import ReviewFormModal from './ReviewFormModal';
 import './SpotShow.css'
-import OpenModalButton from '../OpenModalButton'
+import OpenModalButton from './OpenModalButton'
+import ConfirmDeleteModal from "./ConfirmDeleteModal"
 
 function SpotShow() {
     const { spotId } = useParams();
@@ -14,7 +15,6 @@ function SpotShow() {
     const reviews = useSelector((state) => state.reviews.reviews);
     const currentUserId = useSelector((state) => state.session.user?.id || 0);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [userReviews, setUserReviews] = useState({});
 
     useEffect(() => {
         dispatch(fetchSpots(spotId)).then(() => {
@@ -22,7 +22,6 @@ function SpotShow() {
         dispatch(fetchReviews(spotId)).then(() => {
             setIsLoaded(true);
         });
-        setUserReviews(dispatch(fetchReviewsCurrent()));
     }, [dispatch, spotId]);
 
     return (
@@ -55,16 +54,17 @@ function SpotShow() {
                         <p className="spot-desc">Paragraph:</p>
                         <p className="spot-desc" style={{ marginLeft: '60px' }}>{spot.description}</p>
                         <div id="detail-reviews">
-                            <div id="detail-reviews-header">{console.log(userReviews)}
+                            <div id="detail-reviews-header">
                                 {spot.numReviews ? (spot.numReviews === 1 ? (<p>{spot.numReviews} Review · {spot.avgStarRating.toFixed(1)} Average Stars</p>) : (<p>{spot.numReviews} Reviews · {spot.avgStarRating} Average Stars</p>)) : (<p>-- Average Stars</p>)}
                             </div>
-                            {currentUserId !== 0 && spot.ownerId !== currentUserId && <OpenModalButton modalComponent={<ReviewFormModal/>} id="new-review-btn"  buttonText='Post Your Review'/>}
+                            {currentUserId !== 0 && spot.ownerId !== currentUserId && Object.values(reviews).find(review => review.userId === currentUserId) === undefined && <OpenModalButton modalComponent={<ReviewFormModal spotId={spotId}/>} id="new-review-btn"  buttonText='Post Your Review'/>}
                             <ul id="reviews-body">
-                                {Object.values(reviews).length ? Object.values(reviews).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).map((review, index) => (<li className="indiv-review" key={index}>
+                                {Object.values(reviews).length ? Object.values(reviews).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((review, index) => (<li className="indiv-review" key={index}>
                                     <p className="rev-user-name">{review.User.firstName}</p>
                                     <p className="rev-review">{review.review}</p>
                                     <p className="rev-date">{review.createdAt === review.updatedAt ? review.createdAt.split('T').join(' ').slice(0, 10) : review.createdAt.split('T').join(' ').slice(0, 10)}</p>
                                     <p className="rev-stars">{review.stars} Stars</p>
+                                    {review.userId === currentUserId && <OpenModalButton className="review-delete-btn" modalComponent={<ConfirmDeleteModal reviewId={review.id} spotId={spotId}/>} buttonText={'Delete'} />}
                                 </li>
                                 )) : spot.ownerId === currentUserId ? <p id="no-reviews">No reviews Yet</p> : <p id="no-reviews">Be the first to post a review!</p>}
                             </ul>

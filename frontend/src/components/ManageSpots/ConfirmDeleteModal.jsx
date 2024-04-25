@@ -17,10 +17,11 @@ function ConfirmDeleteModal({spotId}) {
   return (
     <div>
       <h1>Confirm Delete</h1>
-          <button className='confirm-delete-btns' id='delete-btn' type='submit' onClick={(e) => {
+      <p className='subtitle' style={{border: 'none', textAlign: 'center', padding: 0, fontSize: '15px'}}>Are you sure you want to delete this spot?</p>
+          <button className='confirm-delete-btn' id='delete-btn' type='submit' onClick={(e) => {
           processDelete(e);
           }}>Yes (Delete Spot)</button>
-          <button className='confirm-delete-btns' id='keep-btn' type='submit' onClick={() => {
+          <button className='confirm-delete-btn' id='keep-btn' type='submit' onClick={() => {
           closeModal()
           }}>No (Keep Spot)</button>
     </div>
