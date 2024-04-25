@@ -17,26 +17,48 @@ module.exports = {
           firstName: "DemoUser",
           lastName: "LastName",
           username: "demo_user",
-          hashedPassword: bcrypt.hashSync("password321"),
+          hashedPassword: bcrypt.hashSync("110616-112424"),
         },
         {
-          email: "joe@user.io",
-          firstName: "Joe",
-          lastName: "Schmoe",
-          username: "spot-owner",
+          email: "user@user.io",
+          firstName: "Saul",
+          lastName: "Goodman",
+          username: "owner123",
+          hashedPassword: bcrypt.hashSync("password"),
+        },
+        {
+          email: "jim@user.io",
+          firstName: "Jim",
+          lastName: "Tailor",
+          username: "owner6",
+          hashedPassword: bcrypt.hashSync("password3"),
+        },
+        {
+          email: "owner36912@user.io",
+          firstName: "Alphonso",
+          lastName: "Briggs",
+          username: "owner45",
           hashedPassword: bcrypt.hashSync("password2"),
         },
         {
-          email: "alphonso@user.io",
-          firstName: "Alphonso",
-          lastName: "Briggs",
-          username: "a-briggs",
-          hashedPassword: bcrypt.hashSync("password3"),
+          email: "onlyReviews@user.io",
+          firstName: "Karen",
+          lastName: "Malarkey",
+          username: "reviewer",
+          hashedPassword: bcrypt.hashSync("password4"),
+        },
+        {
+          email: "Scarn@user.io",
+          firstName: "Michael",
+          lastName: "Scott",
+          username: "scarnman",
+          hashedPassword: bcrypt.hashSync("password4"),
         }
       ],
       { validate: true }
     );
   },
+  // 1,4,7,10 -- 2 | 2,5,8,11 -- 3 | 3,6,9,12 -- 4
 
   async down(queryInterface, Sequelize) {
     options.tableName = "Users";

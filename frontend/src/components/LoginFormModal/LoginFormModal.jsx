@@ -50,7 +50,7 @@ function LoginFormModal() {
         <button className='submit-log-in' disabled={credential.length < 4 || password.length < 6} type="submit">Log In</button>
         <button className='submit-log-in' type='submit' onClick={() => {
           setCredential('demo@user.io');
-          setPassword('password321');
+          setPassword('110616-112424');
           handleSubmit()
           }}>Log In Demo User</button>
       </form>

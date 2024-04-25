@@ -143,25 +143,26 @@ router.get("/", async (req, res, next) => {
   await findAvgStars(spots);
 
   for (const spot of spots) {
-    const spotImages = await SpotImage.findAll({
+    const imgs = await SpotImage.findAll({
       where: {
-        id: spot.id,
-        preview: true,
+        spotId: spot.id,
       },
     });
-    if (spotImages.length === 0) {
-      spot.dataValues.previewImage = "no image available";
-    } else {
-      spot.dataValues.previewImage = spotImages[0].dataValues.url;
+
+    console.log('===========>',imgs[0].url)
+    if(imgs){
+       spot.dataValues.previewImage = imgs[0].url || null
+      await spot.save()
+      console.log(spot)
     }
-  }
-for(const spot of spots){
+
+
   spot.dataValues.lat = parseFloat(spot.lat);
   spot.dataValues.lng = parseFloat(spot.lng);
   spot.dataValues.price = parseFloat(spot.price);
 };
 
-
+  console.log(spots)
   res.json({ Spots: spots, page, size });
 });
 
@@ -382,12 +383,14 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
     preview: newImg.preview,
   };
 
-    await spot.update({
-      previewImage: payload.url,
-      where: {
-        preview: true
-      }
-    });
+  await Spot.update(
+    { previewImage: payload.url },
+    { where: {
+      id: spotId,
+      preview: true
+    }
+  }
+  );
     spot.save()
 
 

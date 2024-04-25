@@ -5,7 +5,7 @@ import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import { useNavigate } from 'react-router-dom';
-
+import { FaUser } from "react-icons/fa";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -52,9 +52,8 @@ function ProfileButton({ user }) {
 
   return (
     <>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
       <button id='user-btn' onClick={toggleMenu}>
-        <i className="fas fa-user-circle" />
+        <FaUser className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (

@@ -38,18 +38,19 @@ function SpotShow() {
                             <img className="img-small" src={spot.SpotImages[3]} alt="image 4" />
                             <img className="img-small" src={spot.SpotImages[4]} alt="image 5" /><button id="all-photos" onClick={() => alert('Feature coming soon!')}>All Photos</button>
                         </div>
-
+                    </div>
+                    <div id="name-callout">
                         <p id="owner-name">Hosted by: &nbsp; {spot.Owner.firstName} {spot.Owner.lastName}</p>
                         <div id="callout-info">
                             <h1>Book Now!</h1>
                             <div id="callout-reviews">
                                 {spot.numReviews ? (spot.numReviews === 1 ? (<p>{spot.numReviews} Review · {spot.avgStarRating.toFixed(1)} Average Stars</p>) : (<p>{spot.numReviews} Reviews · {spot.avgStarRating.toFixed(1)} Average Stars</p>)) : (<p>-- Average Stars</p>)}
                             </div>
-
                             <p>${spot.price} / night</p>
                             <button id="reserve" onClick={() => alert('Feature coming soon!')}>Reserve</button>
                         </div>
                     </div>
+
                     <div id="desc-reviews-container">
                         <p className="spot-desc">Paragraph:</p>
                         <p className="spot-desc" style={{ marginLeft: '60px' }}>{spot.description}</p>
