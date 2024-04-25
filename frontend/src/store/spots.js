@@ -77,19 +77,15 @@ export const createSpot = (spot, imgUrls, prevImg) => async (dispatch) => {
 };
 
 export const updateSpot = (spot) => async (dispatch) => {
-  console.log("hello2");
-  try {
-    const res = await csrfFetch("/api/spots", {
-      method: "POST",
+    await dispatch(fetchSpots());
+
+    const res = await csrfFetch(`/api/spots/${spot.id}`, {
+      method: "PUT",
       body: JSON.stringify(spot),
     });
-    const newSpot = res.json();
-    dispatch(addSpot(newSpot));
-    return newSpot;
-  } catch (e) {
-    const formattedErr = await e.json();
-    return formattedErr;
-  }
+    const updatedSpot = res.json();
+    dispatch(editSpot(updatedSpot));
+    return updatedSpot;
 };
 
 const spotsReducer = (state = {}, action) => {
@@ -114,7 +110,9 @@ const spotsReducer = (state = {}, action) => {
         return newState
     }
     case EDIT_SPOT: {
-        return { ...state, [action.payload.id]: action.payload};
+        const newState = { ...state};
+        newState.allSpots[action.payload.id] = action.payload;
+        return newState
     }
     default:
       return state;

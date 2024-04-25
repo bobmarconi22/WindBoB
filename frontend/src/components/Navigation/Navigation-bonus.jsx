@@ -8,7 +8,7 @@ function Navigation({ isLoaded }) {
 
   const navigate = useNavigate()
   const createNewSpot = () => {
-    navigate('/spots/new')
+    navigate('/spots/new');
   }
 
   return (

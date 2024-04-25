@@ -2,13 +2,12 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import './SpotForm.css'
 import { useNavigate, useParams } from "react-router-dom"
-import { fetchSpots, createSpot } from "../../store/spots"
+import { fetchSpots, createSpot, updateSpot } from "../../store/spots"
 
 
 function SpotForm() {
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.spotById);
-    console.log(spot);
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
@@ -26,15 +25,27 @@ function SpotForm() {
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const setFormValues = (spot) => {
-        setAddress(spot.address);
-        setCity(spot.city);
-        setState(spot.state);
-        setCountry(spot.country);
-        setName(spot.name);
-        setDescription(spot.description);
-        setPrice(spot.price);
-        setIsLoaded(true);
-        setFormType('update');
+        if(formType !== 'update'){
+            setAddress(spot.address);
+            setCity(spot.city);
+            setState(spot.state);
+            setCountry(spot.country);
+            setName(spot.name);
+            setDescription(spot.description);
+            setPrice(spot.price);
+            setIsLoaded(true);
+            setFormType('update');
+        } else {
+            setAddress('');
+            setCity('');
+            setState('');
+            setCountry('');
+            setName('');
+            setDescription('');
+            setPrice(0);
+            setIsLoaded(true);
+        }
+
     };
 
     useEffect(() => {
@@ -70,7 +81,9 @@ function SpotForm() {
         setIsSubmitted(true);
         setErrorsFunc();
         if (name !== '' && city !== '' && state !== '' && country !== '' && address !== '') {
-            const spot = {
+
+            if(formType === 'create'){
+                const spot = {
                 country,
                 address,
                 city,
@@ -82,8 +95,26 @@ function SpotForm() {
                 price: parseInt(price),
                 SpotImages: imageUrls,
             };
-            const data = await dispatch(createSpot(spot, imageUrls, imageUrls.previewImageUrl));
-            navigate(`/spots/${data.id}`);
+                const data = await dispatch(createSpot(spot, imageUrls, imageUrls.previewImageUrl));
+                navigate(`/spots/${data.id}`);
+            } else if (formType === 'update'){
+                const spot = {
+                    id: spotId,
+                    country,
+                    address,
+                    city,
+                    state,
+                    description,
+                    name,
+                    lat: 1,
+                    lng: 1,
+                    price: parseInt(price),
+                    SpotImages: imageUrls,
+                };
+                const data = await dispatch(updateSpot(spot));
+                navigate(`/spots/${data.id}`);
+            }
+
         }
     };
 
@@ -139,7 +170,7 @@ return (
             </div>
             <button id="create-spot-btn" type="submit" >Create Spot</button>
         </>)
-         : <button id="create-spot-btn" type="submit" >Update Spot</button>}
+         : <button id="create-spot-btn" type="submit" >Update Your Spot</button>}
       </form>}
     </>
 )
