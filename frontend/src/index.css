@@ -461,3 +461,7 @@ img {
   font-size: 11px;
   padding: 2px;
 }
+
+.edit-spots > .spot-tile{
+  height: 450px
+}

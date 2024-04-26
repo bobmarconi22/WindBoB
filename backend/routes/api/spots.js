@@ -152,7 +152,6 @@ router.get("/", async (req, res, next) => {
     if(imgs){
        spot.dataValues.previewImage = imgs[0].url || null
       await spot.save()
-      console.log(spot)
     }
 
 

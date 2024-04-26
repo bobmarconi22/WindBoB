@@ -73,17 +73,17 @@ function SpotShow() {
           </div>
           <div id="name-callout">
             <p id="owner-name">
-              Hosted by: &nbsp; {spot.Owner.firstName} {spot.Owner.lastName}
+              Hosted by: &nbsp;&nbsp;&nbsp;&nbsp; {spot.Owner.firstName} {spot.Owner.lastName}
             </p>
             <div id="callout-info">
               <h1>Book Now!</h1>
               <div id="callout-reviews">
                 {spot.numReviews ? (
                   spot.numReviews === 1 ? (
-                    <p>
+                    <div>
                       {spot.numReviews} Review · {spot.avgStarRating.toFixed(1)}{" "}
                       Average Stars
-                    </p>
+                    </div>
                   ) : (
                     <p>
                       {spot.numReviews} Reviews ·{" "}
@@ -114,12 +114,12 @@ function SpotShow() {
                 {spot.numReviews ? (
                   spot.numReviews === 1 ? (
                     <p>
-                      {spot.numReviews} Review · {spot.avgStarRating.toFixed(1)}{" "}
+                      {spot.numReviews} Review · &#9733;  {spot.avgStarRating.toFixed(1)}{" "}
                       Average Stars
                     </p>
                   ) : (
                     <p>
-                      {spot.numReviews} Reviews ·{" "}
+                      {spot.numReviews} Reviews · &#9733;
                       {spot.avgStarRating.toFixed(2).endsWith(0)
                         ? spot.avgStarRating.toFixed(1)
                         : spot.avgStarRating.toFixed(2)}{" "}
@@ -127,7 +127,7 @@ function SpotShow() {
                     </p>
                   )
                 ) : (
-                  <p>-- Average Stars</p>
+                  <p>&#9733; New</p>
                 )}
               </div>
               {currentUserId !== 0 &&
