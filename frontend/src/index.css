@@ -205,6 +205,7 @@ h1{
     border: 1px solid rgb(22,65,73);
     border-bottom: none;
     border-radius: 5px 5px 0px 0px;
+    height: 70%;
 }
 
 #spot-location {
@@ -215,8 +216,7 @@ h1{
 
 #images-container{
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
+    grid-template-columns: 65% 35%;
     margin: 0 auto;
     margin-top: 50px;
     width: 95%;
@@ -237,36 +237,49 @@ h1{
     color: mintcream;
 }
 
+#img-large:hover{
+    cursor: pointer;
+}
+
 #small-images{
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
-    gap: 2px;
     background-color: rgb(22,65,73);
     border-radius: 10px;
-    padding: 4px;
+    padding: 8px;
+    margin: 0;
     color: mintcream;
     min-width: 97%;
-
+    padding: 2px;
+    gap: 0;
 }
+
 .img-small {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2px;
-    border: 1px solid rgb(111,223,197);
-    border-radius: 10px;
-    padding: 4px;
+    border: 2px solid rgb(111,223,197,0.75);
+    border-radius: 15px;
+    height: 95%;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 2px;
+}
+
+.img-small:hover{
+    cursor: pointer;
 }
 
 #all-photos{
     grid-column: span 2;
-    background-color: rgb(111,223,197);
-    color: rgb(22,65,73);
+    background-color: rgb(22,65,73);
+    color: rgb(111,223,197);
+    box-shadow: none;
 }
 
 #all-photos:hover{
-    box-shadow: 1px 1px 9px mintcream;
+    text-decoration: underline;
 }
 
 #owner-name{
