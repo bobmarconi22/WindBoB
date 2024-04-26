@@ -27,7 +27,7 @@ module.exports = {
           lat: 37.7645358,
           lng: -122.4730327,
           name: "Ocean Villa",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 1250,
         },
         {
@@ -39,7 +39,7 @@ module.exports = {
           lat: 3.1415269,
           lng: 123.56789,
           name: "The Reef",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 599,
         },
         {
@@ -51,7 +51,7 @@ module.exports = {
           lat: 1.141534269,
           lng: 33.5634789,
           name: "Waves",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 1000,
         },
         {
@@ -63,7 +63,7 @@ module.exports = {
           lat: 0.141534269,
           lng: 0.5634789,
           name: "Saturday Sun",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 950,
         },
         {
@@ -75,7 +75,7 @@ module.exports = {
           lat: 37.7645358,
           lng: -122.4730327,
           name: "Costal Corridor",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 1400,
         },
         {
@@ -87,7 +87,7 @@ module.exports = {
           lat: 3.1415269,
           lng: 123.56789,
           name: "The Island",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 999,
         },
         {
@@ -99,7 +99,7 @@ module.exports = {
           lat: 1.141534269,
           lng: 33.5634789,
           name: "The Luau",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 200,
         },
         {
@@ -111,7 +111,7 @@ module.exports = {
           lat: 0.141534269,
           lng: 0.5634789,
           name: "The Beach",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 999,
         },
         {
@@ -123,7 +123,7 @@ module.exports = {
           lat: 37.7645358,
           lng: -122.4730327,
           name: "Ocean Villa",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 1325,
         },
         {
@@ -135,7 +135,7 @@ module.exports = {
           lat: 3.1415269,
           lng: 123.56789,
           name: "The Lighthouse",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 699,
         },
         {
@@ -147,7 +147,7 @@ module.exports = {
           lat: 1.141534269,
           lng: 33.5634789,
           name: "the Penninsula",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 1725,
         },
         {
@@ -159,7 +159,7 @@ module.exports = {
           lat: 0.141534269,
           lng: 0.5634789,
           name: "Kazzoos",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget. Purus sit amet volutpat consequat mauris nunc congue nisi. Feugiat pretium nibh ipsum consequat nisl vel pretium. Quisque sagittis purus sit amet volutpat consequat mauris nunc.",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 1550,
         },
       ],
