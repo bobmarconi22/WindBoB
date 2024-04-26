@@ -21,27 +21,27 @@ module.exports = {
       [
         {
           spotId: 1,
-          url: "/spot1.jpg",
+          url: "/1-1.jpg",
           preview: true,
         },
         {
           spotId: 1,
-          url: "https://media.architecturaldigest.com/photos/631a4ea2032fd8c9fc52862c/master/w_1280,c_limit/MY%20AHPO-INFORMAL%20DINING%C2%A9Guillaume%20Plisson%20-HY5A0008.jpg",
+          url: "/1-2.jpg",
           preview: false,
         },
         {
           spotId: 1,
-          url: "https://media.architecturaldigest.com/photos/631a4f9d0ad3a4ac2395e1c7/master/w_1280,c_limit/ROCKIT_15_vb1769798_1620x1080%20copy.jpg",
+          url: "/1-3.jpg",
           preview: false,
         },
         {
           spotId: 1,
-          url: "https://media.architecturaldigest.com/photos/631a4ff78e86af1526b84399/master/w_1280,c_limit/CF013025_Bags.jpg",
+          url: "/1-4.jpg",
           preview: false,
         },
         {
           spotId: 1,
-          url: "https://media.architecturaldigest.com/photos/631a50370ad3a4ac2395e1c9/master/w_1280,c_limit/20200717_1_0302.jpg",
+          url: "/1-5.jpg",
           preview: false,
         },
         {

@@ -109,9 +109,8 @@ h1{
     text-align: center;
     align-items: center;
     color: rgb(22,65,73);
-    width: 50%;
-    max-width: 350px;
-    min-width: 300px;
+    width: 400px;
+    height: 425px;
     padding-top: 5%;
     position: relative;
     align-items: center;
@@ -146,9 +145,9 @@ h1{
     visibility: visible;
     opacity: 1;
 }
+
 .tooltip{
     margin-top: 190px;
-    border-bottom: 2px solid rgb(111,223,197)
 }
 
 
@@ -195,18 +194,22 @@ h1{
     font-size: 14px;
 }
 
+img{
+    object-fit: contain;
+}
+
 .preview-img{
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     color: rgb(22,65,73);
-    width: 99.73%;
-    margin: 0 auto;
+    width: 400px;
     border: 1px solid rgb(22,65,73);
     border-bottom: none;
     border-radius: 5px 5px 0px 0px;
-    height: 70%;
+    height: 400px;
+    padding: 0;
 }
 
 #spot-location {
@@ -217,7 +220,7 @@ h1{
 
 #images-container{
     display: grid;
-    grid-template-columns: 65% 35%;
+    grid-template-columns: 55% 45%;
     margin: 0 auto;
     margin-top: 50px;
     width: 95%;
@@ -227,7 +230,9 @@ h1{
     border-radius: 15px;
     padding: 4px;
     margin-bottom: 10px;
+    height: 510px;
 }
+
 
 #img-large {
     width: 50%;
@@ -236,6 +241,7 @@ h1{
     border-radius: 10px;
     padding: 4px;
     color: mintcream;
+    height: 500px;
 }
 
 #img-large:hover{

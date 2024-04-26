@@ -15,7 +15,7 @@ function OpenModalButton({
     if (typeof onButtonClick === "function") onButtonClick();
   };
 
-  return <button id={modalComponent === ConfirmDeleteModal ? 'review-delete-btn' : "new-review-btn" } className={modalComponent === ConfirmDeleteModal ? 'delete-btn' : "new-review-btn" } onClick={onClick}>{buttonText}</button>;
+  return <button id={"new-review-btn" } className={'review-delete-btn'} onClick={onClick}>{buttonText}</button>;
 }
 
 export default OpenModalButton;

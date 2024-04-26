@@ -68,10 +68,33 @@ input:focus{
 }
 
 .star{
-    color: rgb(111, 223, 197,0.8);
+    color: rgb(111, 223, 197,0.75);
     display: inline-flex;
 }
 
 .star-filled{
     color: rgb(22,65,73);
+}
+
+
+#delete-review-btn > button{
+    font-size: 8px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 15px;
+    text-align: center;
+    margin-bottom: 15px;
+    width: 35px;
+    height: 20px;
+    padding: 2px;
+    color: white;
+    background-color: rgb(230, 0, 0);
+    border: 1px solid rgb(22,65,73);
+}
+
+#delete-review-btn > button:hover{
+    color: white;
+    background-color: red;
+    border: 1px solid rgb(22,65,73);
 }
