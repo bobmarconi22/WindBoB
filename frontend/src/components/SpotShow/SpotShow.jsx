@@ -119,8 +119,11 @@ function SpotShow() {
                     </p>
                   ) : (
                     <p>
-                      {spot.numReviews} Reviews · {spot.avgStarRating.toFixed(2).endsWith(0) ? spot.avgStarRating.toFixed(1) : spot.avgStarRating.toFixed(2)} Average
-                      Stars
+                      {spot.numReviews} Reviews ·{" "}
+                      {spot.avgStarRating.toFixed(2).endsWith(0)
+                        ? spot.avgStarRating.toFixed(1)
+                        : spot.avgStarRating.toFixed(2)}{" "}
+                      Average Stars
                     </p>
                   )
                 ) : (

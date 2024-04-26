@@ -149,7 +149,6 @@ router.get("/", async (req, res, next) => {
       },
     });
 
-    console.log('===========>',imgs[0].url)
     if(imgs){
        spot.dataValues.previewImage = imgs[0].url || null
       await spot.save()
@@ -192,10 +191,22 @@ router.get("/current", requireAuth, async (req, res, next) => {
     };
 
     for(const spot of spots){
+        const imgs = await SpotImage.findAll({
+          where: {
+            spotId: spot.id,
+          },
+        });
+
+        if(imgs){
+           spot.dataValues.previewImage = imgs[0].url || null
+          await spot.save()
+          console.log(spot)
+
       spot.dataValues.lat = parseFloat(spot.lat);
       spot.dataValues.lng = parseFloat(spot.lng);
       spot.dataValues.price = parseFloat(spot.price);
     };
+  }
 
     res.json({ Spots: spots });
   } catch (error) {

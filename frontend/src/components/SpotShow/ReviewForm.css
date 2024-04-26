@@ -1,100 +1,100 @@
-div{
-    z-index: 20;
+div {
+  z-index: 20;
 }
 
-form{
-    display: flex;
-    flex-direction: column;
-    text-align: start;
-    margin: 25px;
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin: 25px;
 }
 
-h1, label{
-    color: rgb(22,65,73);
+h1,
+label {
+  color: rgb(22, 65, 73);
 }
 
-h1{
-    text-align: center;
-    border-bottom: 1px solid rgb(111,223,197);
-    padding-bottom: 25px;
-    margin-bottom: 25px;
-    font-size: 38px;
+h1 {
+  text-align: center;
+  border-bottom: 1px solid rgb(111, 223, 197);
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  font-size: 38px;
 }
 
-label{
-    padding: 8px;
-    margin-bottom: 5px;
-    font-size: 20px;
+label {
+  padding: 8px;
+  margin-bottom: 5px;
+  font-size: 20px;
 }
 
-input{
-    border: none;
-    border-bottom: 2px solid rgb(22,65,73,0.45);
-    margin-left: 10px;
-    width: 90%;
-    color: rgb(22,65,73);
+input {
+  border: none;
+  border-bottom: 2px solid rgb(22, 65, 73, 0.45);
+  margin-left: 10px;
+  width: 90%;
+  color: rgb(22, 65, 73);
 }
 
-input:hover{
-    border-bottom: 2px solid rgb(111, 223, 197);
+input:hover {
+  border-bottom: 2px solid rgb(111, 223, 197);
 }
 
-input:focus{
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgb(111, 223, 197);
+input:focus {
+  border: none;
+  outline: none;
+  border-bottom: 2px solid rgb(111, 223, 197);
 }
 
-.submit-log-in{
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-    margin-top: 40px;
+.submit-log-in {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  margin-top: 40px;
 }
 
-.star-rating{
-    position: absolute;
-    left: 0;
-    margin-left: 40px;
-    padding: 5px;
+.star-rating {
+  position: absolute;
+  left: 0;
+  margin-left: 40px;
+  padding: 5px;
 }
 
-.star-total{
-    position: absolute;
-    right: 0;
-    margin-right: 40px;
+.star-total {
+  position: absolute;
+  right: 0;
+  margin-right: 40px;
 }
 
-.star{
-    color: rgb(111, 223, 197,0.75);
-    display: inline-flex;
+.star {
+  color: rgb(111, 223, 197, 0.75);
+  display: inline-flex;
 }
 
-.star-filled{
-    color: rgb(22,65,73);
+.star-filled {
+  color: rgb(22, 65, 73);
 }
 
-
-#delete-review-btn > button{
-    font-size: 8px;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    margin-right: 15px;
-    text-align: center;
-    margin-bottom: 15px;
-    width: 35px;
-    height: 20px;
-    padding: 2px;
-    color: white;
-    background-color: rgb(230, 0, 0);
-    border: 1px solid rgb(22,65,73);
+#delete-review-btn > button {
+  font-size: 8px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-right: 15px;
+  text-align: center;
+  margin-bottom: 15px;
+  width: 35px;
+  height: 20px;
+  padding: 2px;
+  color: white;
+  background-color: rgb(230, 0, 0);
+  border: 1px solid rgb(22, 65, 73);
 }
 
-#delete-review-btn > button:hover{
-    color: white;
-    background-color: red;
-    border: 1px solid rgb(22,65,73);
+#delete-review-btn > button:hover {
+  color: white;
+  background-color: red;
+  border: 1px solid rgb(22, 65, 73);
 }

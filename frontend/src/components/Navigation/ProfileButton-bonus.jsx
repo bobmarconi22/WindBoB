@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session';
-import OpenModalMenuItem from './OpenModalMenuItem';
-import LoginFormModal from '../LoginFormModal';
-import SignupFormModal from '../SignupFormModal';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import * as sessionActions from "../../store/session";
+import OpenModalMenuItem from "./OpenModalMenuItem";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
+import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 
 function ProfileButton({ user }) {
@@ -26,33 +26,33 @@ function ProfileButton({ user }) {
       }
     };
 
-    document.addEventListener('click', closeMenu);
+    document.addEventListener("click", closeMenu);
 
-    return () => document.removeEventListener('click', closeMenu);
+    return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
   const closeMenu = () => setShowMenu(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
     closeMenu();
-    navigate('/')
+    navigate("/");
   };
 
   const manage = (e) => {
     e.preventDefault();
     closeMenu();
-    navigate('/spots/manage')
+    navigate("/spots/manage");
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <>
-      <button id='user-btn' onClick={toggleMenu}>
+      <button id="user-btn" onClick={toggleMenu}>
         <FaUser className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>

@@ -1,3 +1,3 @@
-import ManageSpots from './ManageSpots';
+import ManageSpots from "./ManageSpots";
 
 export default ManageSpots;

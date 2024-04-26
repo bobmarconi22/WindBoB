@@ -1,50 +1,51 @@
-div{
-    z-index: 20;
+div {
+  z-index: 20;
 }
 
-form{
-    display: flex;
-    flex-direction: column;
-    text-align: start;
-    margin: 25px;
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin: 25px;
 }
 
-h1, label{
-    color: rgb(22,65,73);
+h1,
+label {
+  color: rgb(22, 65, 73);
 }
 
-h1{
-    text-align: center;
-    border-bottom: 1px solid rgb(111,223,197);
-    padding-bottom: 25px;
-    margin-bottom: 25px;
-    font-size: 38px;
+h1 {
+  text-align: center;
+  border-bottom: 1px solid rgb(111, 223, 197);
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  font-size: 38px;
 }
 
-label{
-    padding: 8px;
-    margin-bottom: 5px;
-    font-size: 20px;
+label {
+  padding: 8px;
+  margin-bottom: 5px;
+  font-size: 20px;
 }
 
-input{
-    border: none;
-    border-bottom: 2px solid rgb(22,65,73,0.45);
-    margin-left: 10px;
-    width: 90%;
-    color: rgb(22,65,73);
+input {
+  border: none;
+  border-bottom: 2px solid rgb(22, 65, 73, 0.45);
+  margin-left: 10px;
+  width: 90%;
+  color: rgb(22, 65, 73);
 }
 
-input:focus{
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgb(111, 223, 197);
+input:focus {
+  border: none;
+  outline: none;
+  border-bottom: 2px solid rgb(111, 223, 197);
 }
 
-.submit-sign-up{
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
+.submit-sign-up {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
 }

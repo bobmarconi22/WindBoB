@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import * as sessionActions from '../../store/session';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import './LoginForm.css';
+import { useState } from "react";
+import * as sessionActions from "../../store/session";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import "./LoginForm.css";
 
 function LoginFormPage() {
   const dispatch = useDispatch();
@@ -18,8 +18,8 @@ function LoginFormPage() {
     e.preventDefault();
     setErrors({});
     if (isDemoUser) {
-      setCredential('owner@user.io');
-      setPassword('password');
+      setCredential("owner@user.io");
+      setPassword("password");
     }
     return dispatch(sessionActions.login({ credential, password })).catch(
       async (res) => {
@@ -32,7 +32,7 @@ function LoginFormPage() {
   return (
     <>
       <h1>Log In</h1>
-      <form id='login-form' onSubmit={handleSubmit}>
+      <form id="login-form" onSubmit={handleSubmit}>
         <label>
           Username or Email
           <input
@@ -54,14 +54,14 @@ function LoginFormPage() {
         {errors.credential && <p>{errors.credential}</p>}
         <button type="submit">Log In</button>
         <button
-        type='button'
-        onClick={() => {
-          setIsDemoUser(true);
-          document.getElementById('login-form').submit();
-        }}
-      >
-        Log In Demo User
-      </button>
+          type="button"
+          onClick={() => {
+            setIsDemoUser(true);
+            document.getElementById("login-form").submit();
+          }}
+        >
+          Log In Demo User
+        </button>
       </form>
     </>
   );

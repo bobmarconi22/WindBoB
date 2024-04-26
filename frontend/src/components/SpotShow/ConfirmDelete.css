@@ -1,48 +1,48 @@
-div{
-    z-index: 20;
+div {
+  z-index: 20;
 }
 
-.delete-btn{
-    color: white;
-    background-color: rgb(230, 0, 0);
-    border: 1px solid rgb(22,65,73);
+.delete-btn {
+  color: white;
+  background-color: rgb(230, 0, 0);
+  border: 1px solid rgb(22, 65, 73);
 }
 
-.delete-btn:hover{
-    color: white;
-    background-color: red;
-    border: 1px solid rgb(22,65,73);
+.delete-btn:hover {
+  color: white;
+  background-color: red;
+  border: 1px solid rgb(22, 65, 73);
 }
 
-#keep-btn{
-    color: white;
-    background-color: grey;
-    border: 1px solid rgb(22,65,73);
+#keep-btn {
+  color: white;
+  background-color: grey;
+  border: 1px solid rgb(22, 65, 73);
 }
 
-#keep-btn:hover{
-    color: white;
-    background-color: grey;
-    border: 1px solid rgb(22,65,73);
+#keep-btn:hover {
+  color: white;
+  background-color: grey;
+  border: 1px solid rgb(22, 65, 73);
 }
 
-.confirm-delete-btn{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    margin: 0 auto;
-    padding: 20px;
-    margin-bottom: 5px;
-    width: 90%;
-    color: white;
-    background-color: rgb(230, 0, 0);
-    border: 1px solid rgb(22,65,73);
+.confirm-delete-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 5px;
+  width: 90%;
+  color: white;
+  background-color: rgb(230, 0, 0);
+  border: 1px solid rgb(22, 65, 73);
 }
 
-.confirm-delete-btn:hover{
-    color: white;
-    background-color: red;
-    border: 1px solid rgb(22,65,73);
+.confirm-delete-btn:hover {
+  color: white;
+  background-color: red;
+  border: 1px solid rgb(22, 65, 73);
 }
