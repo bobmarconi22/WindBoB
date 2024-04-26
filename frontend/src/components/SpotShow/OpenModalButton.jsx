@@ -1,5 +1,4 @@
 import { useModal } from '../../context/Modal';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
 
 function OpenModalButton({
   modalComponent, // component to render inside the modal
