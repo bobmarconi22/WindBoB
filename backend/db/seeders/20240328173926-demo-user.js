@@ -17,7 +17,7 @@ module.exports = {
           firstName: "DemoUser",
           lastName: "LastName",
           username: "demo_user",
-          hashedPassword: bcrypt.hashSync("110616-112424"),
+          hashedPassword: bcrypt.hashSync("password12321"),
         },
         {
           email: "user@user.io",
@@ -58,7 +58,6 @@ module.exports = {
       { validate: true }
     );
   },
-  // 1,4,7,10 -- 2 | 2,5,8,11 -- 3 | 3,6,9,12 -- 4
 
   async down(queryInterface, Sequelize) {
     options.tableName = "Users";
