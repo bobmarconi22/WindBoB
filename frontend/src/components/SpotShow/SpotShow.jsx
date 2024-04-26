@@ -34,9 +34,9 @@ function SpotShow() {
                         <img id="img-large" src={spot.SpotImages.find((img) => img.preview === true)?.url} onClick={() => alert('Feature coming soon!')} alt="image 1" />
                         <div id="small-images" style={{zIndex: 2}}>
                             <img className="img-small" onClick={() => alert('Feature coming soon!')} src={spot.SpotImages[1] ? spot.SpotImages[1].url : ''} alt="image 2" />
-                            <img className="img-small" onClick={() => alert('Feature coming soon!')} src={spot.SpotImages[2] ? spot.SpotImages[1].url : ''} alt="image 3" />
-                            <img className="img-small" onClick={() => alert('Feature coming soon!')} src={spot.SpotImages[3] ? spot.SpotImages[1].url : ''} alt="image 4" />
-                            <img className="img-small" onClick={() => alert('Feature coming soon!')} src={spot.SpotImages[4] ? spot.SpotImages[1].url : ''} alt="image 5" /><button id="all-photos" onClick={() => alert('Feature coming soon!')}>All Photos</button>
+                            <img className="img-small" onClick={() => alert('Feature coming soon!')} src={spot.SpotImages[2] ? spot.SpotImages[2].url : ''} alt="image 3" />
+                            <img className="img-small" onClick={() => alert('Feature coming soon!')} src={spot.SpotImages[3] ? spot.SpotImages[3].url : ''} alt="image 4" />
+                            <img className="img-small" onClick={() => alert('Feature coming soon!')} src={spot.SpotImages[4] ? spot.SpotImages[4].url : ''} alt="image 5" /><button id="all-photos" onClick={() => alert('Feature coming soon!')}>All Photos</button>
                         </div>
                     </div>
                     <div id="name-callout">
