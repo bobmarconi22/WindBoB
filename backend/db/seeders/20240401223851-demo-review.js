@@ -205,7 +205,12 @@ module.exports = {
           review: "I had so much fun the first few days... Then the whole trip was ruined when I burnt my foot...",
           stars: 5,
         },
-
+        {
+          spotId: 13,
+          userId: 3,
+          review: "Really awesome place, totally recommend",
+          stars: 5,
+        },
       ],
       {}
     );

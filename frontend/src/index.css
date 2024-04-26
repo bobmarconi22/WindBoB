@@ -194,7 +194,7 @@ h1 {
 }
 
 img {
-  object-fit: scale-down;
+  object-fit: contain;
 }
 
 .preview-img {
@@ -233,7 +233,7 @@ img {
 }
 
 #img-large {
-  min-width: 98%;
+  width: 98%;
   background-color: rgb(22, 65, 73);
   border-radius: 10px;
   padding: 4px;

@@ -55,7 +55,7 @@ module.exports = {
           price: 999,
         },
         {
-          ownerId: 2,
+          ownerId: 1,
           address: "1234 Five Ln",
           city: "Cameroon",
           state: "Sahara Desert",
@@ -151,7 +151,7 @@ module.exports = {
           price: 2725,
         },
         {
-          ownerId: 4,
+          ownerId: 1,
           address: "1234 Five Ln",
           city: "St. George",
           state: "Corfu",
@@ -161,6 +161,18 @@ module.exports = {
           name: "Kazoos",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
           price: 2500,
+        },
+        {
+          ownerId: 2,
+          address: "1234 Five Ln",
+          city: "Playa Mallorca",
+          state: "Guabos",
+          country: "Costa Rica",
+          lat: 0.141534269,
+          lng: 0.5634789,
+          name: "The Amazon",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam viverra orci sagittis eu volutpat. Ultrices sagittis orci a scelerisque purus semper eget.",
+          price: 2700,
         },
       ],
       {}

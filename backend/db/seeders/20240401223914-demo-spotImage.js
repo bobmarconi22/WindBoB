@@ -319,6 +319,31 @@ module.exports = {
           url: "/12-5.jpg",
           preview: false,
         },
+        {
+          spotId: 13,
+          url: "/13-1.jpg",
+          preview: true,
+        },
+        {
+          spotId: 13,
+          url: "/13-2.jpg",
+          preview: false,
+        },
+        {
+          spotId: 13,
+          url: "/13-3.jpg",
+          preview: false,
+        },
+        {
+          spotId: 13,
+          url: "/13-4.jpg",
+          preview: false,
+        },
+        {
+          spotId: 13,
+          url: "/13-5.jpg",
+          preview: false,
+        },
 
       ],
       {}
