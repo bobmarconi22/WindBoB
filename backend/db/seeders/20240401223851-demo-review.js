@@ -46,20 +46,26 @@ module.exports = {
         {
           spotId: 2,
           userId: 5,
-          review: "The place was awesome! But I was very disappointed, as it rained through my entire 3 day stay!",
-          stars: 3,
+          review: "The place was nice! But I was very disappointed, as it rained through my entire 3 day stay!",
+          stars: 2,
         },
         {
           spotId: 2,
           userId: 4,
-          review: "Great time! I absolutely loved this trip! Can't wait to do it again!!",
+          review: "I LOVE falling asleep to the sound of rain! phenomenal spot!!",
           stars: 5,
         },
         {
           spotId: 2,
           userId: 2,
-          review: "Had a lot of fun here, I might come back",
-          stars: 4,
+          review: "Really good place to get away, a lot of rain...",
+          stars: 3,
+        },
+        {
+          spotId: 2,
+          userId: 6,
+          review: "Nowhere to park my Seabring!",
+          stars: 2,
         },
         {
           spotId: 7,
@@ -76,8 +82,8 @@ module.exports = {
         {
           spotId: 3,
           userId: 6,
-          review: "Had a lot of fun! I invited Ryan to come with me but he said he needed an emergency hisotrectumy or something... Im worried about him!",
-          stars: 1,
+          review: "Had a lot of fun! I invited Ryan to come with me but he said he needed an emergency hysterectomy or something... Im worried about him...",
+          stars: 4,
         },
         {
           spotId: 3,
@@ -94,32 +100,32 @@ module.exports = {
         {
           spotId: 4,
           userId: 4,
-          review: "slightly disappointed, feel like we should have gotten a longer stay for what we paid, but it was very fun!",
+          review: "VERY HOT, seems a little over priced, but it was a neat experience!",
           stars: 3,
         },
         {
           spotId: 4,
           userId: 6,
           review: "VERY disappointed they didn't give me a discount when I told them I was a Regional Manager",
-          stars: 1,
+          stars: 2,
         },
         {
           spotId: 5,
           userId: 2,
-          review: "It was okay... could have been better",
-          stars: 2,
+          review: "Really nice view",
+          stars: 4,
         },
         {
           spotId: 5,
           userId: 4,
-          review: "Really cool, but NOT worth the price",
-          stars: 2,
+          review: "SUPER inexpensive!!",
+          stars: 5,
         },
         {
           spotId: 5,
           userId: 5,
           review: "I see the atmosphere they're trying to make, but I was just let down...",
-          stars: 3,
+          stars: 2,
         },
         {
           spotId: 6,
